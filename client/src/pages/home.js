@@ -40,12 +40,33 @@ const theme = extendTheme({
 });
 
 const services = [
-  { title: 'Stem Cell Therapy', description: 'Cutting-edge treatments using stem cells for various conditions.', icon: <MicroscopeIcon /> },
-  { title: 'Regenerative Medicine', description: 'Advanced techniques to help your body heal itself.', icon: <HeartPulseIcon /> },
-  { title: 'Personalized Care', description: 'Tailored treatment plans for your specific needs.', icon: <UserIcon /> },
-  { title: 'Neurological Treatments', description: 'Innovative stem cell therapies for neurological disorders.', icon: <BrainIcon /> },
-  { title: 'Orthopedic Regeneration', description: 'Stem cell solutions for joint and bone health.', icon: <HeartPulseIcon /> },
+  { 
+    title: 'Stem Cell Therapy', 
+    description: 'Stem Cell Therapy is a cutting-edge medical approach designed to harness the natural regenerative abilities of stem cells to treat a variety of conditions. From chronic illnesses to acute injuries, this therapy aims to repair damaged tissues, reduce inflammation, and promote healing at a cellular level. With ongoing advancements, it holds promise for treating conditions such as diabetes, heart disease, and degenerative disorders.', 
+    icon: <MicroscopeIcon /> 
+  },
+  { 
+    title: 'Regenerative Medicine', 
+    description: 'Regenerative Medicine is an advanced field that focuses on restoring the structure and function of damaged tissues and organs. Using breakthrough techniques like tissue engineering, stem cell applications, and molecular biology, this approach helps the body heal itself. Whether addressing sports injuries, arthritis, or age-related conditions, regenerative medicine is paving the way for personalized and minimally invasive treatments.', 
+    icon: <HeartPulseIcon /> 
+  },
+  { 
+    title: 'Personalized Care', 
+    description: 'Personalized Care is at the heart of modern healthcare, offering treatment plans tailored to your unique medical history, genetic profile, and lifestyle. By focusing on your individual needs, this approach ensures that every decision—from diagnostics to therapy—is optimized for effectiveness and safety. Our commitment to personalized care ensures that you receive the attention and treatment you deserve.', 
+    icon: <UserIcon /> 
+  },
+  { 
+    title: 'Neurological Treatments', 
+    description: 'Neurological Treatments utilizing stem cell therapy are opening new frontiers in addressing disorders such as Parkinson’s disease, multiple sclerosis, and stroke recovery. By targeting damaged neurons and promoting neural regeneration, these innovative approaches aim to improve cognitive and motor functions, reduce symptoms, and enhance overall quality of life for individuals with neurological challenges.', 
+    icon: <BrainIcon /> 
+  },
+  { 
+    title: 'Orthopedic Regeneration', 
+    description: 'Orthopedic Regeneration through stem cell therapy offers hope for individuals suffering from joint, cartilage, and bone issues. Whether dealing with arthritis, tendon injuries, or fractures, these therapies aim to rebuild damaged tissues, reduce pain, and restore mobility. This minimally invasive approach is revolutionizing orthopedic care by reducing the need for surgeries and long recovery times.', 
+    icon: <HeartPulseIcon /> 
+  },
 ];
+
 
 export default function HomePage() {
   return (
@@ -116,7 +137,7 @@ export default function HomePage() {
         </Box>
 
          {/* Services Section */}
-         <Box sx={{ py: 0, bgcolor: 'background.surface' }}>
+         <Box sx={{ py: 3, bgcolor: 'background.surface' }}>
           {/* <Container maxWidth="lg">
             <Typography level="h2" component="h3" sx={{ textAlign: 'center', mb: 4, fontFamily: 'display', color: 'primary.700' }}>
               Our Services

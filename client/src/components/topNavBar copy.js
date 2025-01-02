@@ -13,7 +13,6 @@ import {
   ListItemContent,
 } from '@mui/joy';
 import MenuIcon from '@mui/icons-material/Menu';
-import dna from '../images/dna.png';
 
 const Header = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -42,7 +41,7 @@ const Header = () => {
     { title: 'Specialties', path: '/' },
     { title: 'FAQ', path: '/' },
     { title: 'Contact', path: '/' },
-  ]
+  ];
 
   return (
     <Sheet
@@ -55,32 +54,9 @@ const Header = () => {
         position: 'sticky',
         top: 0,
         zIndex: 1100,
-        overflow: 'hidden', // Ensure the pseudo-element stays within bounds
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: `url(${dna})`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-          filter: isScrolled ? 'blur(20px)' : 'blur(20px)', // Apply blur to background image
-          transition: 'filter 0.3s ease-in-out',
-          zIndex: -1, // Place behind content
-        },
-        '&::after': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          bgcolor: 'rgba(255, 255, 255, 0.01)',
-          zIndex: -1, // Place behind content but above background
-        }
+        backdropFilter: 'blur(20px)', // Apply a blur effect to match the rest of the page
+        backgroundColor: isScrolled ? 'rgba(0, 0, 0, 0.5)' : 'transparent', // Adjust background color based on scroll
+        transition: 'background-color 0.3s ease-in-out',
       }}
     >
       {/* Logo / Title */}
@@ -91,7 +67,6 @@ const Header = () => {
           fontFamily: 'display',
           fontWeight: 'bold',
           color: 'white',
-          position: 'relative', // Ensure text stays above pseudo-elements
         }}
       >
         Marc Medics
@@ -102,22 +77,21 @@ const Header = () => {
         sx={{
           display: { xs: 'none', sm: 'flex' },
           gap: 2,
-          position: 'relative', // Ensure buttons stay above pseudo-elements
         }}
       >
         {pages.map((page, index) => (
-            <Button 
-                key={index}
-                variant="plain"
-                sx={{
-                    '&:hover': {
-                        backgroundColor: 'transparent', // Prevents background change
-                        boxShadow: 'none', // Ensures no shadow appears
-                    },
-                }}
-            >
-                <Typography sx={{color: 'white'}}>{page.title}</Typography>
-            </Button>
+          <Button
+            key={index}
+            variant="plain"
+            sx={{
+              '&:hover': {
+                backgroundColor: 'transparent',
+                boxShadow: 'none',
+              },
+            }}
+          >
+            <Typography sx={{ color: 'white' }}>{page.title}</Typography>
+          </Button>
         ))}
       </Box>
 
@@ -125,14 +99,13 @@ const Header = () => {
       <IconButton
         sx={{
           display: { xs: 'inline-flex', sm: 'none' },
-          position: 'relative', // Ensure button stays above pseudo-elements
         }}
         onClick={handleDrawerToggle}
       >
         <MenuIcon />
       </IconButton>
 
-      {/* Drawer remains unchanged */}
+      {/* Drawer */}
       <Drawer
         open={drawerOpen}
         onClose={handleDrawerToggle}
