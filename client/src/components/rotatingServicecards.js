@@ -56,7 +56,7 @@ const CarouselServices = ({ services }) => {
             position: 'relative',
             height: '100%',
             width: isMobile ? '100%' : '48%', // Adjust width for mobile
-            display: 'flex',
+            display: isMobile? 'block': 'flex',
             alignItems: 'center',
             justifyContent: 'center',
           }}
