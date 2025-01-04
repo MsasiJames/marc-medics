@@ -2,7 +2,9 @@ import React from 'react';
 import { CssVarsProvider, extendTheme } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import { Box, Button, Typography, Sheet, Grid, Divider, Container, Card, CardContent } from '@mui/joy';
-import { MicroscopeIcon, HeartPulseIcon, BrainIcon, UserIcon } from 'lucide-react';
+import {  MicroscopeIcon, HeartPulseIcon, BrainIcon, UserIcon,
+          BabyIcon, BuildingIcon, StarIcon, ActivityIcon
+ } from 'lucide-react';
 
 import Header from '../components/topNavBar copy';
 import CarouselServices from '../components/rotatingServicecards';
@@ -47,35 +49,36 @@ const theme = extendTheme({
 const services = [
   { 
     title: 'Stem Cell Therapy', 
-    description: 'Stem Cell Therapy is a cutting-edge medical approach designed to harness the natural regenerative abilities of stem cells to treat a variety of conditions. From chronic illnesses to acute injuries, this therapy aims to repair damaged tissues, reduce inflammation, and promote healing at a cellular level. With ongoing advancements, it holds promise for treating conditions such as diabetes, heart disease, and degenerative disorders.', 
+    description: 'Stem Cell Therapy uses the regenerative power of stem cells to treat various conditions. From chronic illnesses to injuries, it repairs tissues, reduces inflammation, and promotes cellular healing, showing promise for diabetes, heart disease, and more.', 
     icon: <MicroscopeIcon />,
     image: stem_cells
   },
   { 
     title: 'Regenerative Medicine', 
-    description: 'Regenerative Medicine is an advanced field that focuses on restoring the structure and function of damaged tissues and organs. Using breakthrough techniques like tissue engineering, stem cell applications, and molecular biology, this approach helps the body heal itself. Whether addressing sports injuries, arthritis, or age-related conditions, regenerative medicine is paving the way for personalized and minimally invasive treatments.', 
+    description: 'Regenerative Medicine restores damaged tissues and organs using breakthroughs like tissue engineering and stem cells. It offers personalized, minimally invasive solutions for injuries, arthritis, and age-related conditions.', 
     icon: <HeartPulseIcon />,
     image: regenerative_therapy
   },
   { 
     title: 'Personalized Care', 
-    description: 'Personalized Care is at the heart of modern healthcare, offering treatment plans tailored to your unique medical history, genetic profile, and lifestyle. By focusing on your individual needs, this approach ensures that every decision—from diagnostics to therapy—is optimized for effectiveness and safety. Our commitment to personalized care ensures that you receive the attention and treatment you deserve.', 
+    description: 'Personalized Care tailors treatments to your medical history, genetics, and lifestyle. Focusing on your needs, it optimizes diagnostics and therapies for safety and effectiveness, ensuring the care you deserve.', 
     icon: <UserIcon />,
     image: personalized_care
   },
   { 
-    title: 'Stem cell plastic surgery', 
-    description: 'Neurological Treatments utilizing stem cell therapy are opening new frontiers in addressing disorders such as Parkinson’s disease, multiple sclerosis, and stroke recovery. By targeting damaged neurons and promoting neural regeneration, these innovative approaches aim to improve cognitive and motor functions, reduce symptoms, and enhance overall quality of life for individuals with neurological challenges.', 
+    title: 'Stem Cell Plastic Surgery', 
+    description: 'Stem cell plastic surgery targets neural regeneration to address disorders like Parkinson’s, multiple sclerosis, and stroke recovery. It promotes better motor functions, reduced symptoms, and improved quality of life.', 
     icon: <BrainIcon />,
     image: plastic_surgery
   },
   { 
     title: 'Orthopedics', 
-    description: 'Stem cell-assisted treatments offer a minimally invasive solution for sports injuries, chronic pain, and joint issues. These therapies promote natural healing, reduce downtime, and improve mobility, making them a safe and effective alternative to surgery for active individuals and athletes.', 
+    description: 'Stem cell therapies offer minimally invasive treatments for sports injuries, chronic pain, and joint issues. They support natural healing, improve mobility, and provide an alternative to surgery for active individuals.', 
     icon: <HeartPulseIcon />,
     image: orthopedics
   },
 ];
+
 
 export default function HomePage() {
     return (
@@ -84,6 +87,9 @@ export default function HomePage() {
         <Box
           sx={{
             display: 'flex',
+            // width: '100vw',
+            overflowX: 'hidden',
+            paddingRight: '2px',
             flexDirection: 'column',
             minHeight: '100vh',
             position: 'relative',
@@ -177,53 +183,143 @@ export default function HomePage() {
             </Box>
   
             {/* Why Choose Us Section */}
-            <Box sx={{ py: 12, bgcolor: 'rgba(255, 255, 255, 0)', color: 'text.primary' }}>
-                <Container maxWidth="lg">
-                    <Typography level="h2" component="h3" sx={{ textAlign: 'center', mb: 6, fontFamily: 'display', color: 'white' }}>
-                        Why Choose Marc Medics?
-                    </Typography>
-                    <Grid container spacing={4}>
-                    <Grid xs={12} md={4}>
-                        <Card variant="outlined" sx={{ height: '100%' }}>
-                        <CardContent>
-                            <MicroscopeIcon size={48} color={theme.colorSchemes.light.palette.primary[500]} />
-                            <Typography level="h4" component="h4" sx={{ my: 2, fontFamily: 'display' }}>
-                            Cutting-edge Technology
+            <Box sx={{ py: 8, bgcolor: 'rgba(255, 255, 255, 0)' }}>
+              <Container maxWidth="lg">
+                  <Typography level="h2" component="h3" sx={{ textAlign: 'center', mb: 4, fontFamily: 'display', color: 'white' }}>
+                    Why Choose Marc Medics?
+                  </Typography>
+                  {/* <Typography sx={{ textAlign: 'center', mb: 6, maxWidth: '800px', mx: 'auto', color: 'white' }}>
+                    At Marc Medics, we combine cutting-edge technology with personalized care to deliver exceptional results in stem cell therapy and regenerative medicine.
+                  </Typography> */}
+                  <Grid 
+                    container 
+                    spacing={3} 
+                    sx={{
+                      '& > .MuiGrid-item': {
+                        transition: 'all 0.3s ease-in-out',
+                      },
+                      '&:hover > .MuiGrid-item:not(:hover)': {
+                        filter: 'blur(2px)',
+                        transform: 'scale(0.98)',
+                      },
+                    }}
+                  >
+                    {[
+                      { title: "Cutting-edge Technology", description: "We utilize the latest advancements in stem cell research and technology to provide you with the most effective and innovative treatments available.", icon: <MicroscopeIcon size={40} /> },
+                      { title: "Personalized Care", description: "We develop tailored treatment plans to address your specific health needs and goals, ensuring the best possible outcomes for your unique situation.", icon: <HeartPulseIcon size={40} /> },
+                      { title: "Sports Medicine", description: "Experience pro-level stem cell treatments for sports injuries, now accessible to passionate athletes of all levels. Optimize your performance and recovery with our cutting-edge therapies.", icon: <ActivityIcon size={40} /> },
+                      { title: "Multidisciplinary Poly Clinic", description: "Our comprehensive health optimization center offers a wide range of specialties, from dermatology to endocrinology, all under one roof for your convenience and holistic care.", icon: <BuildingIcon size={40} /> },
+                      { title: "'Doc Stars' Network", description: "Partner with the city's leading practitioners and surgeons, carefully selected for their expertise and ethical standards, ensuring you receive the best possible care.", icon: <StarIcon size={40} /> },
+                      { title: "Stem Cell Banking", description: "Secure your child’s health with umbilical cord stem cell banking. This simple birth procedure offers a vital resource for treating illnesses and ensures viable cells for future use.", icon: <BabyIcon size={40} /> },
+                    ].map((item, index) => (
+                      <Grid key={index} xs={12} md={4}>
+                        <Card 
+                          variant="outlined" 
+                          sx={{ 
+                            height: '250px',
+                            transition: 'all 0.3s ease-in-out',
+                            position: 'relative',
+                            overflow: 'hidden',
+                            background: 'linear-gradient(to bottom, #ffffff, #f0f7ff)',
+                            '&:hover': {
+                              transform: 'translateY(-10px)',
+                              boxShadow: '0 4px 20px 0 rgba(0,0,0,0.12)',
+                              zIndex: 1,
+                              '& .description': {
+                                opacity: 1,
+                                transform: 'translateY(0)',
+                              },
+                              '& .preview': {
+                                opacity: 0,
+                              },
+                              '& .content-wrapper': {
+                                transform: 'translateY(-20px)',
+                              }
+                            },
+                          }}
+                        >
+                          <CardContent
+                            sx={{
+                              height: '100%',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              p: 3,
+                              position: 'relative',
+                            }}
+                          >
+                            <Box 
+                              className="content-wrapper"
+                              sx={{ 
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                transition: 'transform 0.3s ease-in-out',
+                              }}
+                            >
+                              <Box 
+                                sx={{ 
+                                  color: 'primary.700', 
+                                  display: 'flex', 
+                                  alignItems: 'center', 
+                                  justifyContent: 'center',
+                                  mb: 2
+                                }}
+                              >
+                                {item.icon}
+                              </Box>
+                              
+                              <Typography
+                                level="h5" 
+                                component="h4"
+                                sx={{
+                                  fontFamily: 'display',
+                                  textAlign: 'center',
+                                  mb: 2
+                                }}
+                              >
+                                {item.title}
+                              </Typography>
+
+                              <Typography
+                                className="preview"
+                                sx={{
+                                  fontSize: '0.875rem',
+                                  textAlign: 'center',
+                                  opacity: 1,
+                                  transition: 'opacity 0.3s ease-in-out',
+                                  display: '-webkit-box',
+                                  WebkitLineClamp: 3,
+                                  WebkitBoxOrient: 'vertical',
+                                  overflow: 'hidden',
+                                }}
+                              >
+                                {item.description}
+                              </Typography>
+                            </Box>
+
+                            <Typography
+                              className="description"
+                              sx={{
+                                position: 'absolute',
+                                bottom: 24,
+                                left: 24,
+                                right: 24,
+                                opacity: 0,
+                                transform: 'translateY(20px)',
+                                transition: 'all 0.3s ease-in-out',
+                                textAlign: 'center',
+                                lineHeight: 1.6,
+                                fontSize: '0.875rem',
+                              }}
+                            >
+                              {item.description}
                             </Typography>
-                            <Typography>
-                            We utilize the latest advancements in stem cell research and technology to provide you with the most effective treatments.
-                            </Typography>
-                        </CardContent>
+                          </CardContent>
                         </Card>
-                    </Grid>
-                    <Grid xs={12} md={4}>
-                        <Card variant="outlined" sx={{ height: '100%' }}>
-                        <CardContent>
-                            <UserIcon size={48} color={theme.colorSchemes.light.palette.primary[500]} />
-                            <Typography level="h4" component="h4" sx={{ my: 2, fontFamily: 'display' }}>
-                            Expert Team
-                            </Typography>
-                            <Typography>
-                            Our team of experienced doctors and researchers are leaders in the field of regenerative medicine.
-                            </Typography>
-                        </CardContent>
-                        </Card>
-                    </Grid>
-                    <Grid xs={12} md={4}>
-                        <Card variant="outlined" sx={{ height: '100%' }}>
-                        <CardContent>
-                            <HeartPulseIcon size={48} color={theme.colorSchemes.light.palette.primary[500]} />
-                            <Typography level="h4" component="h4" sx={{ my: 2, fontFamily: 'display' }}>
-                            Personalized Care
-                            </Typography>
-                            <Typography>
-                            We develop tailored treatment plans to address your specific health needs and goals.
-                            </Typography>
-                        </CardContent>
-                        </Card>
-                    </Grid>
-                    </Grid>
-                </Container>
+                      </Grid>
+                    ))}
+                  </Grid>
+              </Container>
             </Box>
   
             {/* Call to Action */}
@@ -267,7 +363,7 @@ export default function HomePage() {
                   {/* Footer content */}
                 </Grid>
                 <Divider sx={{ my: 4 }} />
-                <Typography level="body2" sx={{ textAlign: 'center' }}>
+                <Typography level="body-sm" sx={{ textAlign: 'center', color: 'white' }}>
                   © 2023 Marc Medics. All rights reserved.
                 </Typography>
               </Container>

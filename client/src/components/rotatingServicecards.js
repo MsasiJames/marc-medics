@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import { Box, Card, CardContent, Typography, IconButton } from '@mui/joy';
+import { Box, Card, CardContent, Typography, IconButton, useTheme  } from '@mui/joy';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { isMobile } from "react-device-detect";
 
 const CarouselServices = ({ services }) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const theme = useTheme();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -31,7 +32,7 @@ const CarouselServices = ({ services }) => {
     <Box 
       sx={{ 
         position: 'relative',
-        height: '700px',
+        height: '600px',
         width: '100%',
         display: 'flex',
         alignItems: 'center',
@@ -43,10 +44,10 @@ const CarouselServices = ({ services }) => {
       <Box 
         sx={{ 
           position: 'relative',
-          height: '100%',
+          height: isMobile ? '90%' : '70%',
           width: '90%',
           display: 'flex',
-          justifyContent: 'space-around', /* Adjust this line to reduce the space */
+          justifyContent: 'space-around',
           alignItems: 'center',
         }}
       >
@@ -55,8 +56,8 @@ const CarouselServices = ({ services }) => {
           sx={{ 
             position: 'relative',
             height: '100%',
-            width: isMobile ? '100%' : '48%', // Adjust width for mobile
-            display: isMobile? 'block': 'flex',
+            width: isMobile ? '100%' : '48%',
+            display: isMobile ? 'block' : 'flex',
             alignItems: 'center',
             justifyContent: 'center',
           }}
@@ -72,10 +73,10 @@ const CarouselServices = ({ services }) => {
                 variant="outlined"
                 sx={{
                   position: 'absolute',
-                  width: '80%',
-                  height: '80%',
+                  width: '90%',
+                  height: '90%',
                   opacity: absoluteDistance > 2 ? 0 : 1,
-                  backgroundColor: 'rgba(255, 255, 255, 1)',
+                  background: `linear-gradient(to bottom, ${theme.vars.palette.background.body}, ${theme.vars.palette.primary[50]})`,
                   transform: `
                     translateX(${distance * 60}px)
                     translateZ(${isActive ? 0 : -150 * absoluteDistance}px)
@@ -86,11 +87,18 @@ const CarouselServices = ({ services }) => {
                   zIndex: isActive ? 3 : 2 - absoluteDistance,
                   pointerEvents: isActive ? 'auto' : 'none',
                   boxShadow: isActive ? 'lg' : 'md',
+                  overflow: 'hidden',
                 }}
               >
-                <CardContent sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-                  <Box sx={{ mb: 2, color: 'primary.500' }}>
-                    {service.icon}
+                <CardContent sx={{ 
+                  height: '100%', 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  justifyContent: 'space-between', 
+                  p: 4
+                }}>
+                  <Box sx={{ mb: 2, color: 'primary.500', alignSelf: 'center' }}>
+                    {React.cloneElement(service.icon, { size: 48 })}
                   </Box>
                   <Typography 
                     level="h4" 
@@ -99,17 +107,33 @@ const CarouselServices = ({ services }) => {
                       mb: 2,
                       opacity: 1 - absoluteDistance * 0.3,
                       fontFamily: 'display',
+                      textAlign: 'center',
                     }}
                   >
                     {service.title}
                   </Typography>
                   <Typography
                     sx={{ 
-                      opacity: 1 - absoluteDistance * 0.3
+                      opacity: 1 - absoluteDistance * 0.3,
+                      flex: 1,
+                      overflow: 'auto',
+                      textAlign: 'center',
                     }}
                   >
                     {service.description}
                   </Typography>
+                  {/* <Box sx={{ mt: 2, textAlign: 'center' }}>
+                    <IconButton 
+                      variant="outlined" 
+                      color="primary"
+                      sx={{ 
+                        opacity: isActive ? 1 : 0,
+                        transition: 'opacity 0.3s ease-in-out',
+                      }}
+                    >
+                      Learn More
+                    </IconButton>
+                  </Box> */}
                 </CardContent>
               </Card>
             );
@@ -206,6 +230,7 @@ const CarouselServices = ({ services }) => {
       </IconButton>
     </Box>
   );
+
 };
 
 export default CarouselServices;

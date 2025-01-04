@@ -13,7 +13,7 @@ import {
   ListItemContent,
 } from '@mui/joy';
 import MenuIcon from '@mui/icons-material/Menu';
-import logo from '../images/MARC_Logo_copy.jpg';
+import logo from '../images/MARC_Logo_copy-removebg-preview.png';
 import { isMobile } from 'react-device-detect';
 
 const Header = () => {
@@ -74,8 +74,8 @@ const Header = () => {
         {isMobile? "Marc Medical" : <img 
           src={logo} 
           style={{
-            maxWidth: "20%", 
-            maxHeight: "20%",
+            maxWidth: "15%", 
+            maxHeight: "15%",
             objectFit: "contain"
             }}
           alt="Logo"

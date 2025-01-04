@@ -1,0 +1,186 @@
+            // THIS CODE SHOWS THE WHY CHOOSE USE SECTION IT DISPLAYS EVERYTHING
+            <Grid 
+              container 
+              spacing={4} 
+              sx={{
+                '& > .MuiGrid-item': {
+                  transition: 'all 0.3s ease-in-out',
+                },
+                '&:hover > .MuiGrid-item:not(:hover)': {
+                  filter: 'blur(2px)',
+                  transform: 'scale(0.98)',
+                },
+              }}
+            >
+              {[
+                { title: "Cutting-edge Technology", description: "We utilize the latest advancements in stem cell research and technology to provide you with the most effective and innovative treatments available.", icon: <MicroscopeIcon size={40} /> },
+                { title: "Personalized Care", description: "We develop tailored treatment plans to address your specific health needs and goals, ensuring the best possible outcomes for your unique situation.", icon: <HeartPulseIcon size={40} /> },
+                { title: "Sports Medicine", description: "Experience pro-level stem cell treatments for sports injuries, now accessible to passionate athletes of all levels. Optimize your performance and recovery with our cutting-edge therapies.", icon: <ActivityIcon size={40} /> },
+                { title: "Multidisciplinary Poly Clinic", description: "Our comprehensive health optimization center offers a wide range of specialties, from dermatology to endocrinology, all under one roof for your convenience and holistic care.", icon: <BuildingIcon size={40} /> },
+                { title: "'Doc Stars' Network", description: "Partner with the city's leading practitioners and surgeons, carefully selected for their expertise and ethical standards, ensuring you receive the best possible care.", icon: <StarIcon size={40} /> },
+                { title: "Stem Cell Banking", description: "Secure your child's future health with our umbilical cord stem cell banking. This painless procedure at birth provides a powerful resource for treating serious childhood illnesses and ensures more viable cells for potential use later in life.", icon: <BabyIcon size={40} /> },
+              ].map((item, index) => (
+                <Grid key={index} xs={12} md={4}>
+                  <Card 
+                    variant="outlined" 
+                    sx={{ 
+                      height: '100%',
+                      transition: 'all 0.3s ease-in-out',
+                      '&:hover': {
+                        transform: 'translateY(-10px)',
+                        boxShadow: '0 4px 20px 0 rgba(0,0,0,0.12)',
+                        zIndex: 1,
+                      },
+                    }}
+                  >
+                    <CardContent>
+                      {/* <AspectRatio ratio="1" sx={{ width: 80, mb: 2, borderRadius: 'sm', bgcolor: 'primary.100' }}> */}
+                        <Box sx={{ color: 'primary.700', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          {item.icon}
+                        </Box>
+                      {/* </AspectRatio> */}
+                      <Typography level="h4" component="h4" sx={{ my: 2, fontFamily: 'display' }}>
+                        {item.title}
+                      </Typography>
+                      <Typography>
+                        {item.description}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+
+
+
+            <Grid
+                container
+                spacing={4}
+                sx={{
+                  '& > .MuiGrid-item': {
+                    transition: 'all 0.3s ease-in-out',
+                  },
+                  '&:hover > .MuiGrid-item:not(:hover)': {
+                    filter: 'blur(2px)',
+                    transform: 'scale(0.98)',
+                  },
+                }}
+              >
+                {[
+                  {
+                    title: "Cutting-edge Technology",
+                    description: "We harness advanced stem cell research and technology to deliver innovative treatments. These cutting-edge methods provide safe, effective solutions for addressing complex health challenges and improving long-term outcomes.",
+                    icon: <MicroscopeIcon size={40} />
+                  },
+                  {
+                    title: "Personalized Care",
+                    description: "Our tailored treatment plans focus on your unique health needs and goals. By combining modern diagnostics with expert care, we ensure personalized solutions that maximize recovery and enhance quality of life.",
+                    icon: <HeartPulseIcon size={40} />
+                  },                                                    
+                  {
+                    title: "Sports Medicine",
+                    description: "Experience pro-level stem cell treatments for sports injuries, now accessible to passionate athletes of all levels. Optimize your performance and recovery with our cutting-edge therapies.",
+                    icon: <ActivityIcon size={40} />
+                  },
+                  {
+                    title: "Multidisciplinary Poly Clinic",
+                    description: "Our comprehensive health optimization center offers a wide range of specialties, from dermatology to endocrinology, all under one roof for your convenience and holistic care.",
+                    icon: <BuildingIcon size={40} />
+                  },
+                  {
+                    title: "'Doc Stars' Network",
+                    description: "Connect with the city’s top practitioners and surgeons, chosen for their unmatched expertise and ethical care. This trusted network ensures you receive world-class treatment tailored to your needs.",
+                    icon: <StarIcon size={40} />
+                  },                  
+                  {
+                    title: "Stem Cell Banking",
+                    description: "Secure your child's future health with our umbilical cord stem cell banking. This painless procedure at birth provides a powerful resource for treating serious childhood illnesses and ensures more viable cells for potential use later in life.",
+                    icon: <BabyIcon size={40} />
+                  },
+                ].map((item, index) => (
+                  <Grid key={index} item xs={12} md={4}>
+                    <Card
+                      variant="outlined"
+                      sx={{
+                        height: '350px',
+                        transition: 'all 0.3s ease-in-out',
+                        position: 'relative',
+                        overflow: 'hidden',
+                        '&:hover': {
+                          transform: 'translateY(-10px)',
+                          boxShadow: '0 4px 20px 0 rgba(0,0,0,0.12)',
+                          zIndex: 1,
+                          '& .description': {
+                            opacity: 1,
+                            transform: 'translateY(0)',
+                          },
+                          '& .content-wrapper': {
+                            transform: 'translateY(-30px)', // Moves content up slightly to make room for description
+                          }
+                        },
+                      }}
+                    >
+                      <CardContent
+                        sx={{
+                          height: '100%',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          p: 4,
+                          position: 'relative',
+                        }}
+                      >
+                        <Box 
+                          className="content-wrapper"
+                          sx={{ 
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            transition: 'transform 0.3s ease-in-out',
+                          }}
+                        >
+                          <Box 
+                            sx={{ 
+                              color: 'primary.700', 
+                              display: 'flex', 
+                              alignItems: 'center', 
+                              justifyContent: 'center',
+                              mb: 3
+                            }}
+                          >
+                            {item.icon}
+                          </Box>
+                          
+                          <Typography
+                            level="h4"
+                            component="h4"
+                            sx={{
+                              fontFamily: 'display',
+                              textAlign: 'center',
+                              mb: 2
+                            }}
+                          >
+                            {item.title}
+                          </Typography>
+                        </Box>
+
+                        <Typography
+                          className="description"
+                          sx={{
+                            position: 'absolute',
+                            bottom: 32,
+                            left: 32,
+                            right: 32,
+                            opacity: 0,
+                            transform: 'translateY(20px)',
+                            transition: 'all 0.3s ease-in-out',
+                            textAlign: 'center',
+                            lineHeight: 1.6,
+                          }}
+                        >
+                          {item.description}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
