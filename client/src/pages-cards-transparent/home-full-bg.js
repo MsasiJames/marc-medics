@@ -7,7 +7,7 @@ import {  MicroscopeIcon, HeartPulseIcon, BrainIcon, UserIcon,
  } from 'lucide-react';
 
 import Header from '../components/topNavBar copy';
-import CarouselServices from '../components/rotatingServicecards';
+import CarouselServices from '../components/rotatingServicecards-transparent-cards';
 
 // here the images are imported
 import dna from '../images/dna.png';
@@ -220,7 +220,9 @@ export default function HomePage() {
                             transition: 'all 0.3s ease-in-out',
                             position: 'relative',
                             overflow: 'hidden',
-                            background: 'linear-gradient(to bottom, #ffffff, #f0f7ff)',
+                            bgcolor: 'rgba(255, 255, 255, 0)',
+                            backdropFilter: 'blur(20px)',
+                            // background: 'linear-gradient(to bottom, #ffffff, #f0f7ff)',
                             '&:hover': {
                               transform: 'translateY(-10px)',
                               boxShadow: '0 4px 20px 0 rgba(0,0,0,0.12)',
@@ -258,11 +260,11 @@ export default function HomePage() {
                             >
                               <Box 
                                 sx={{ 
-                                  color: 'primary.700', 
+                                  color: 'primary.500', 
                                   display: 'flex', 
                                   alignItems: 'center', 
                                   justifyContent: 'center',
-                                  mb: 2
+                                  mb: 2,
                                 }}
                               >
                                 {item.icon}
@@ -274,7 +276,8 @@ export default function HomePage() {
                                 sx={{
                                   fontFamily: 'display',
                                   textAlign: 'center',
-                                  mb: 2
+                                  mb: 2,
+                                  color: 'white'
                                 }}
                               >
                                 {item.title}
@@ -291,6 +294,7 @@ export default function HomePage() {
                                   WebkitLineClamp: 3,
                                   WebkitBoxOrient: 'vertical',
                                   overflow: 'hidden',
+                                  color: 'white'
                                 }}
                               >
                                 {item.description}
@@ -310,6 +314,7 @@ export default function HomePage() {
                                 textAlign: 'center',
                                 lineHeight: 1.6,
                                 fontSize: '0.875rem',
+                                color: 'white'
                               }}
                             >
                               {item.description}

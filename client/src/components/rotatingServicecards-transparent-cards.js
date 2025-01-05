@@ -76,9 +76,9 @@ const CarouselServices = ({ services }) => {
                   width: '90%',
                   height: '90%',
                   opacity: absoluteDistance > 2 ? 0 : 1,
-                  // bgcolor: 'rgba(255, 255, 255, 0)',
-                  // backdropFilter: 'blur(10px)',
-                  background: `linear-gradient(to bottom, ${theme.vars.palette.background.body}, ${theme.vars.palette.primary[50]})`,
+                  bgcolor: 'rgba(255, 255, 255, 0)',
+                  backdropFilter: 'blur(20px)',
+                  // background: `linear-gradient(to bottom, ${theme.vars.palette.background.body}, ${theme.vars.palette.primary[50]})`,
                   transform: `
                     translateX(${distance * 60}px)
                     translateZ(${isActive ? 0 : -150 * absoluteDistance}px)
@@ -110,7 +110,7 @@ const CarouselServices = ({ services }) => {
                       opacity: 1 - absoluteDistance * 0.3,
                       fontFamily: 'display',
                       textAlign: 'center',
-                      // color: 'white'
+                      color: 'white'
                     }}
                   >
                     {service.title}
@@ -121,7 +121,7 @@ const CarouselServices = ({ services }) => {
                       flex: 1,
                       overflow: 'auto',
                       textAlign: 'center',
-                      // color: 'white'
+                      color: 'white'
                     }}
                   >
                     {service.description}

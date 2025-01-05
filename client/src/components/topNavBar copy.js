@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Sheet,
   Typography,
@@ -17,6 +18,7 @@ import logo from '../images/MARC_Logo_copy-removebg-preview.png';
 import { isMobile } from 'react-device-detect';
 
 const Header = () => {
+  const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -38,11 +40,11 @@ const Header = () => {
   }, []);
 
   const pages = [
-    { title: 'About', path: '/' },
-    { title: 'Services', path: '/' },
-    { title: 'Specialties', path: '/' },
-    { title: 'FAQ', path: '/' },
-    { title: 'Contact', path: '/' },
+    { title: 'About', path: '/about' },
+    // { title: 'Services', path: '/services' },
+    { title: 'Specialties', path: '/specialities' },
+    { title: 'FAQ', path: '/faq' },
+    { title: 'Contact', path: '/contact' },
   ];
 
   return (
@@ -79,6 +81,9 @@ const Header = () => {
             objectFit: "contain"
             }}
           alt="Logo"
+          onClick={() => {
+            navigate('/')
+          }}
         >         
         </img>}
       </Typography>
@@ -99,6 +104,9 @@ const Header = () => {
                 backgroundColor: 'transparent',
                 boxShadow: 'none',
               },
+            }}
+            onClick={() => {
+              navigate(page.path)
             }}
           >
             <Typography sx={{ color: 'white' }}>{page.title}</Typography>
