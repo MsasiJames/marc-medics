@@ -14,7 +14,7 @@ import {
   ListItemContent,
 } from '@mui/joy';
 import MenuIcon from '@mui/icons-material/Menu';
-import logo from '../images/MARC_Logo_copy-removebg-preview.png';
+import logo from '../images/white_logo_cropped.png';
 import { isMobile } from 'react-device-detect';
 
 const Header = () => {
@@ -71,21 +71,30 @@ const Header = () => {
           fontFamily: 'display',
           fontWeight: 'bold',
           color: 'white',
+          height: "60px",
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+      
         }}
       >
-        {isMobile? "Marc Medical" : <img 
+        <img 
           src={logo} 
           style={{
-            maxWidth: "15%", 
-            maxHeight: "15%",
-            objectFit: "contain"
+            maxWidth: "70%", 
+            maxHeight: "70%",
+            margin: "0",
+            padding: "0",
+            objectFit: "contain",
+            ...(isMobile ? { marginLeft: "-30px" } : {}),
+            boxSizing: "content-box"
             }}
           alt="Logo"
           onClick={() => {
             navigate('/')
           }}
         >         
-        </img>}
+        </img>
       </Typography>
 
       {/* Desktop Buttons */}
