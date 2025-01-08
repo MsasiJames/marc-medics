@@ -1,5 +1,6 @@
 import React from 'react';
 import { CssVarsProvider, extendTheme } from '@mui/joy/styles';
+import { useNavigate } from 'react-router-dom';
 import CssBaseline from '@mui/joy/CssBaseline';
 import { Box, Button, Typography, Sheet, Grid, Divider, Container, Card, CardContent } from '@mui/joy';
 import {  MicroscopeIcon, HeartPulseIcon, BrainIcon, UserIcon,
@@ -81,6 +82,7 @@ const services = [
 
 
 export default function HomePage() {
+    const navigate = useNavigate();
     return (
       <CssVarsProvider theme={theme}>
         <CssBaseline />
@@ -167,6 +169,9 @@ export default function HomePage() {
                           color: 'common.white',
                           borderColor: 'common.white',
                           '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' },
+                        }}
+                        onClick={() => {
+                          navigate('/contact')
                         }}
                       >
                         Schedule Consultation
@@ -347,6 +352,9 @@ export default function HomePage() {
                   size="lg"
                   variant="solid"
                   sx={{ bgcolor: 'primary.50', color: 'primary.700', '&:hover': { bgcolor: 'primary.100' } }}
+                  onClick={() => {
+                    navigate('/contact')
+                  }}
                 >
                   Schedule Consultation
                 </Button>

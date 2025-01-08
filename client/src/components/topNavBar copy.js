@@ -42,7 +42,7 @@ const Header = () => {
   const pages = [
     { title: 'About', path: '/about' },
     // { title: 'Services', path: '/services' },
-    { title: 'Specialties', path: '/specialities' },
+    { title: 'News', path: '/news' },
     { title: 'FAQ', path: '/faq' },
     { title: 'Contact', path: '/contact' },
   ];

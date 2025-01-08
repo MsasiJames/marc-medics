@@ -113,8 +113,10 @@ export default function FAQ() {
               backdropFilter: 'blur(20px)',
               height: '100%',
               borderRadius: 'lg',
-              [`& .${accordionSummaryClasses.button}:hover`]: {
-                backgroundColor: 'transparent',
+              [`& .${accordionSummaryClasses.button}`]: {
+                '&:hover': {
+                  backgroundColor: 'transparent !important', // Force transparency
+                },
               },
             }}
           >
@@ -122,16 +124,24 @@ export default function FAQ() {
               <Accordion
                 key={index}
                 sx={{
+                  backgroundColor: 'transparent !important', // Ensure no default background
+                  boxShadow: 'none !important', // Ensure no shadow by default
                   '&:hover': {
-                    backgroundColor: 'transparent', // Disable background highlight
-                    boxShadow: 'none', // Remove any shadow on hover
+                    backgroundColor: 'transparent !important', // Disable background highlight
+                    boxShadow: 'none !important', // Remove shadow on hover
+                  },
+                  '&.Mui-expanded': {
+                    backgroundColor: 'transparent !important', // No highlight when expanded
                   },
                 }}
               >
                 <AccordionSummary
                   sx={{
                     '&:hover': {
-                      backgroundColor: 'transparent', // Disable background highlight
+                      backgroundColor: 'transparent !important', // Disable hover highlight
+                    },
+                    '&.Mui-expanded': {
+                      backgroundColor: 'transparent !important', // No highlight when expanded
                     },
                   }}
                 >
@@ -139,12 +149,19 @@ export default function FAQ() {
                     {faq.question}
                   </Typography>
                 </AccordionSummary>
-                <AccordionDetails variant="soft" sx={{ bgcolor: 'rgba(255, 255, 255, 0)' }}>
+                <AccordionDetails
+                  variant="soft"
+                  sx={{
+                    bgcolor: 'rgba(255, 255, 255, 0) !important', // Ensure transparency
+                  }}
+                >
                   <Typography sx={{ color: 'white' }}>{faq.answer}</Typography>
                 </AccordionDetails>
               </Accordion>
             ))}
           </AccordionGroup>
+
+
 
         </Container>
 
