@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CssVarsProvider, extendTheme } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import { Box, Typography, Sheet, Container, Card, CardContent, Input, Textarea, Button, FormControl, FormLabel } from '@mui/joy';
@@ -39,10 +39,36 @@ const theme = extendTheme({
 });
 
 export default function Contact() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
+
   const handleSubmit = (event) => {
     event.preventDefault();
     // Handle form submission here
-    console.log('Form submitted');
+    fetch('http://127.0.0.1:8080/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "name": name,
+        "email": email,
+        "subject": subject,
+        "message": message
+      })
+    })
+    .then((res) => {
+      if(res.ok){
+        console.log('Form sent successfully');
+      }else{
+        console.log('Form was not sent successfully');
+      }
+    })
+    .catch((error) => {
+      console.error('Error while sending form:', error);
+    })
   };
 
   return (
@@ -81,15 +107,19 @@ export default function Contact() {
               <form onSubmit={handleSubmit}>
                 <FormControl sx={{ mb: 2 }}>
                   <FormLabel sx={{color: 'white'}}>Name</FormLabel>
-                  <Input required />
+                  <Input required onChange={(e) => setName(e.target.value)} />
                 </FormControl>
                 <FormControl sx={{ mb: 2 }}>
                   <FormLabel sx={{color: 'white'}}>Email</FormLabel>
-                  <Input type="email" required />
+                  <Input type="email" required onChange={(e) => setEmail(e.target.value)} />
+                </FormControl>
+                <FormControl sx={{ mb: 2 }}>
+                  <FormLabel sx={{color: 'white'}}>Subject</FormLabel>
+                  <Input required onChange={(e) => setSubject(e.target.value)} />
                 </FormControl>
                 <FormControl sx={{ mb: 2 }}>
                   <FormLabel sx={{color: 'white'}}>Message</FormLabel>
-                  <Textarea minRows={4} required />
+                  <Textarea minRows={4} required onChange={(e) => setMessage(e.target.value)}/>
                 </FormControl>
                 <Button type="submit" sx={{ width: '100%' }}>Send Message</Button>
               </form>
