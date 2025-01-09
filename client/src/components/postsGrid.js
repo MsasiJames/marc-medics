@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CssVarsProvider, extendTheme } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import { Box, Card, CardContent, Typography, Button, Modal, ModalClose, Sheet } from '@mui/joy';
+import { isMobile } from "react-device-detect";
 
 const theme = extendTheme({
     colorSchemes: {
@@ -66,19 +67,28 @@ const PostModal = ({ post, open, onClose }) => {
                 >
                     {post?.title}
                 </Typography>
-                <Typography level="body1" sx={{ color: 'white' }}>
-                    {post?.content?.replace(/<[^>]*>?/gm, '')}
-                </Typography>
+                {post?.title === 'SkinGun – can heal burns in just days!' ? (
+                    <video
+                        src="https://marcmedics.com/wp-content/uploads/2016/12/SkinGun.mp4"
+                        controls
+                        style={{ width: '100%', borderRadius: '8px', marginBottom: '16px' }}
+                    />
+                ) : (
+                    <Typography level="body1" sx={{ color: 'white' }}>
+                        {post?.content?.replace(/<[^>]*>?/gm, '')}
+                    </Typography>
+                )}
             </Sheet>
         </Modal>
     );
 };
 
+
 const PostsGrid = ({ posts }) => {
     const [columns, setColumns] = useState(3);
     const [selectedPost, setSelectedPost] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
-    
+
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth < 600) {
@@ -89,7 +99,7 @@ const PostsGrid = ({ posts }) => {
                 setColumns(3);
             }
         };
-        
+
         handleResize();
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
@@ -122,6 +132,9 @@ const PostsGrid = ({ posts }) => {
                     display: 'grid',
                     gridTemplateColumns: `repeat(${columns}, 1fr)`,
                     gap: 2,
+                    '@media (max-width: 600px)': {
+                        gridTemplateColumns: '1fr',
+                    },
                 }}
             >
                 {distributeItems().map((column, colIndex) => (
@@ -140,13 +153,16 @@ const PostsGrid = ({ posts }) => {
                                     backgroundColor: 'rgba(255, 255, 255, 0.1)',
                                     backdropFilter: 'blur(20px)',
                                     transition: 'transform 0.2s ease-in-out',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'space-between',
                                     '&:hover': {
                                         transform: 'scale(1.02)',
                                     },
-                                    height: `${Math.max(50, Math.random() * 150 + 250)}px`,
+                                    height: isMobile ? '500px' : `${Math.max(50, Math.random() * 150 + 350)}px`,
                                 }}
                             >
-                                <CardContent sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                                <CardContent sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                                     <Typography 
                                         level="h2" 
                                         fontSize="lg" 
@@ -158,7 +174,7 @@ const PostsGrid = ({ posts }) => {
                                         level="body2" 
                                         sx={{ mb: 2, color: 'white', flexGrow: 1 }}
                                     >
-                                        {post.content.replace(/<[^>]*>?/gm, '').slice(0, 350)}...
+                                        {post.content.replace(/<[^>]*>?/gm, '').slice(0, 500)}...
                                     </Typography>
                                     <Button
                                         variant="outlined"
@@ -166,7 +182,7 @@ const PostsGrid = ({ posts }) => {
                                         onClick={() => handleOpenModal(post)}
                                         sx={{ alignSelf: 'flex-start' }}
                                     >
-                                        Read More
+                                        {post.title === 'SkinGun – can heal burns in just days!' ? 'Watch' : 'Read More'}
                                     </Button>
                                 </CardContent>
                             </Card>

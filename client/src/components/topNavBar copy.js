@@ -12,8 +12,15 @@ import {
   ListItem,
   ListItemButton,
   ListItemContent,
+  ListItemDecorator,
+  Divider,
 } from '@mui/joy';
 import MenuIcon from '@mui/icons-material/Menu';
+import InfoIcon from '@mui/icons-material/Info';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
+import HelpIcon from '@mui/icons-material/Help';
+import ContactMailIcon from '@mui/icons-material/ContactMail';
+import CloseIcon from '@mui/icons-material/Close';
 import logo from '../images/MARC WHITE LOGO.png';
 import { isMobile } from 'react-device-detect';
 
@@ -40,12 +47,17 @@ const Header = () => {
   }, []);
 
   const pages = [
-    { title: 'About', path: '/about' },
-    // { title: 'Services', path: '/services' },
-    { title: 'News', path: '/news' },
-    { title: 'FAQ', path: '/faq' },
-    { title: 'Contact', path: '/contact' },
+    { title: 'About', path: '/about', icon: <InfoIcon sx={{color: 'white'}} /> },
+    { title: 'News', path: '/news', icon: <NewspaperIcon sx={{color: 'white'}}/> },
+    { title: 'FAQ', path: '/faq', icon: <HelpIcon sx={{color: 'white'}}/> },
+    { title: 'Contact', path: '/contact', icon: <ContactMailIcon sx={{color: 'white'}} /> },
   ];
+
+  const sharedStyles = {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backdropFilter: 'blur(20px)',
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+  };
 
   return (
     <Sheet
@@ -59,8 +71,8 @@ const Header = () => {
         position: 'sticky',
         top: 0,
         zIndex: 1100,
-        backdropFilter: 'blur(20px)', // Apply a blur effect to match the rest of the page
-        backgroundColor: isScrolled ? 'rgba(0, 0, 0, 0.5)' : 'transparent', // Adjust background color based on scroll
+        backdropFilter: 'blur(20px)',
+        backgroundColor: isScrolled ? 'rgba(0, 0, 0, 0.5)' : 'transparent',
         transition: 'background-color 0.3s ease-in-out',
       }}
     >
@@ -74,19 +86,29 @@ const Header = () => {
           color: 'white',
         }}
       >
-        {isMobile? "Marc Medical" : <img 
-          src={logo}
-          style={{
-            maxWidth: "12%",
-            maxHeight: "12%",
-            objectFit: "contain",
+        {isMobile ? (
+          <img 
+            src={logo}
+            style={{
+              maxWidth: "50%",
+              maxHeight: "50%",
+              objectFit: 'contain',
             }}
-          alt="Logo"
-          onClick={() => {
-            navigate('/')
-          }}
-        >         
-        </img>}
+            alt="Logo"
+            onClick={() => navigate('/')}
+          />
+        ) : (
+          <img 
+            src={logo}
+            style={{
+              maxWidth: "12%",
+              maxHeight: "12%",
+              objectFit: "contain",
+            }}
+            alt="Logo"
+            onClick={() => navigate('/')}
+          />
+        )}
       </Typography>
 
       {/* Desktop Buttons */}
@@ -106,9 +128,7 @@ const Header = () => {
                 boxShadow: 'none',
               },
             }}
-            onClick={() => {
-              navigate(page.path)
-            }}
+            onClick={() => navigate(page.path)}
           >
             <Typography sx={{ color: 'white' }}>{page.title}</Typography>
           </Button>
@@ -130,22 +150,67 @@ const Header = () => {
         open={drawerOpen}
         onClose={handleDrawerToggle}
         anchor="right"
-        sx={{ display: { sm: 'none' } }}
+        slotProps={{
+          content: {
+            sx: {
+              ...sharedStyles,
+              width: '280px',
+              height: '100%',
+            },
+          },
+        }}
       >
-        <Box sx={{ width: 250, py: 2, px: 1 }}>
-          <List>
-            {['About', 'Services', 'Specialties', 'FAQ', 'Contact'].map((text) => (
-              <ListItem key={text}>
-                <ListItemButton onClick={handleDrawerToggle}>
-                  <ListItemContent>{text}</ListItemContent>
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            p: 2,
+          }}
+        >
+          <Typography level="h5" sx={{ color: 'white' }}>
+            Menu
+          </Typography>
+          <IconButton onClick={handleDrawerToggle} sx={{ color: 'white' }}>
+            <CloseIcon />
+          </IconButton>
         </Box>
+        <Divider sx={{ bgcolor: 'rgba(255, 255, 255, 0.2)' }} />
+        <List
+          sx={{
+            mt: 2,
+            height: '100%',
+          }}
+        >
+          {pages.map((page, index) => (
+            <ListItem key={index}>
+              <ListItemButton 
+                onClick={() => {
+                  navigate(page.path);
+                  handleDrawerToggle();
+                }}
+                sx={{
+                  color: '#fff',
+                  borderRadius: '8px',
+                  transition: 'all 0.2s',
+                  '&:hover': { 
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                    transform: 'translateX(5px)',
+                  },
+                }}  
+              >
+                <ListItemDecorator sx={{ color: 'white' }}>
+                  {page.icon}
+                </ListItemDecorator>
+                <ListItemContent>{page.title}</ListItemContent>
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
       </Drawer>
     </Sheet>
   );
 };
 
 export default Header;
+

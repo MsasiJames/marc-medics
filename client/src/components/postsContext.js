@@ -7,7 +7,7 @@ export const PostsProvider = ({ children }) => {
 
     const getAllPosts = async () => {
         try {
-            const res = await fetch(`http://127.0.0.1:8080/all-posts`, {
+            const res = await fetch(`https://marc-medics-backend-dot-xenon-lyceum-442506-i4.as.r.appspot.com/all-posts`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

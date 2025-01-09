@@ -112,6 +112,7 @@ function Specialities() {
                     flexDirection: 'column',
                     minHeight: '100vh',
                     position: 'relative',
+                    overflowX: 'hidden',
                     '&::before': {
                         content: '""',
                         position: 'fixed',
@@ -138,6 +139,7 @@ function Specialities() {
                         justifyContent: 'center',
                         alignItems: 'center',
                         marginY: 5,
+                        padding: 1,
                     }}
                 >
                     <Input
@@ -147,7 +149,7 @@ function Specialities() {
                         sx={{
                             backgroundColor: 'transparent',
                             color: 'white',
-                            width: '20%',
+                            width: '200px',
                             backdropFilter: 'blur(50px)',
                         }}
                     />

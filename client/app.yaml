@@ -1,4 +1,4 @@
-service: marc-medics-frontend-v2
+service: marc-medics-frontend-v3
 runtime: nodejs20
 instance_class: F2
 
