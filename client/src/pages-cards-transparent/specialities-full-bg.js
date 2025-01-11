@@ -8,6 +8,7 @@ import PostsContext from '../components/postsContext';
 
 // Top navigation bar
 import Header from '../components/topNavBar copy';
+import Footer from '../components/footer';
 
 // background image
 import dna from '../images/dna.png';
@@ -219,6 +220,7 @@ function Specialities() {
                     <PostsGrid posts={filteredPosts.length > 0 ? filteredPosts : allPosts} />
                 )}
             </Box>
+            <Footer />
         </CssVarsProvider>
     );
 }

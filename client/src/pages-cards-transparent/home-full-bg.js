@@ -8,6 +8,7 @@ import {  MicroscopeIcon, HeartPulseIcon, BrainIcon, UserIcon,
  } from 'lucide-react';
 
 import Header from '../components/topNavBar copy';
+import Footer from '../components/footer';
 import CarouselServices from '../components/rotatingServicecards-transparent-cards';
 
 // here the images are imported
@@ -362,25 +363,7 @@ export default function HomePage() {
             </Box>
   
             {/* Footer */}
-            <Sheet
-              component="footer"
-              sx={{
-                py: 6,
-                px: 2,
-                bgcolor: 'rgba(255, 255, 255, 0)',
-                color: 'text.primary',
-              }}
-            >
-              <Container maxWidth="lg">
-                <Grid container spacing={4}>
-                  {/* Footer content */}
-                </Grid>
-                <Divider sx={{ my: 4 }} />
-                <Typography level="body-sm" sx={{ textAlign: 'center', color: 'white' }}>
-                  © 2023 Marc Medics. All rights reserved.
-                </Typography>
-              </Container>
-            </Sheet>
+            <Footer />
           </Box>
         </Box>
       </CssVarsProvider>

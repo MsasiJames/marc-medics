@@ -6,6 +6,7 @@ import { Box, Typography, Sheet, Accordion, AccordionDetails, AccordionSummary, 
 // import { ChevronDown } from 'lucide-react';
 
 import Header from '../components/topNavBar copy';
+import Footer from '../components/footer';
 
 // background image
 import dna from '../images/dna.png';
@@ -145,7 +146,7 @@ export default function FAQ() {
                     },
                   }}
                 >
-                  <Typography level="h6" sx={{ fontFamily: 'display', color: 'white' }}>
+                  <Typography level="h6" sx={{ fontFamily: 'display', color: 'white', fontWeight: 'bold' }}>
                     {faq.question}
                   </Typography>
                 </AccordionSummary>
@@ -166,22 +167,7 @@ export default function FAQ() {
         </Container>
 
         {/* Footer */}
-        <Sheet
-          component="footer"
-          sx={{
-            py: 3,
-            px: 2,
-            mt: 'auto',
-            bgcolor: 'rgba(255, 255, 255, 0)',
-            // backdropFilter: 'blur(8px)',
-          }}
-        >
-          <Container maxWidth="lg">
-            <Typography textAlign="center" sx={{ color: 'white' }}>
-              © 2023 MARC Medical. All rights reserved.
-            </Typography>
-          </Container>
-        </Sheet>
+        <Footer />
       </Box>
     </CssVarsProvider>
   );

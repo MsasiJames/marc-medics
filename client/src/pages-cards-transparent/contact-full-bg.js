@@ -3,6 +3,7 @@ import { CssVarsProvider, extendTheme } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import { Box, Typography, Sheet, Container, Card, CardContent, Input, Textarea, Button, FormControl, FormLabel, Snackbar } from '@mui/joy';
 import Header from '../components/topNavBar copy';
+import Footer from '../components/footer';
 import dna from '../images/dna.png';
 
 const theme = extendTheme({
@@ -172,22 +173,7 @@ export default function Contact() {
             </CardContent>
           </Card>
         </Container>
-
-        <Sheet
-          component="footer"
-          sx={{
-            py: 3,
-            px: 2,
-            mt: 'auto',
-            bgcolor: 'rgba(255, 255, 255, 0)',
-          }}
-        >
-          <Container maxWidth="lg">
-            <Typography level='body-sm' textAlign="center" sx={{ color: 'white' }}>
-              © 2023 MARC Medical. All rights reserved.
-            </Typography>
-          </Container>
-        </Sheet>
+        <Footer />
       </Box>
       
       <Snackbar
