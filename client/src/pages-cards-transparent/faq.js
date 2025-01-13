@@ -82,7 +82,7 @@ export default function FAQ() {
       <Box sx={{ 
         display: 'flex', 
         flexDirection: 'column', 
-        minHeight: '100vh',
+        minHeight: '70vh',
         position: 'relative',
         '&::before': {
           content: '""',
@@ -166,9 +166,9 @@ export default function FAQ() {
 
         </Container>
 
-        {/* Footer */}
-        <Footer />
       </Box>
+      {/* Footer */}
+      <Footer />
     </CssVarsProvider>
   );
 }

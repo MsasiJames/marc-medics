@@ -1,7 +1,7 @@
 import React from 'react';
 import { CssVarsProvider, extendTheme } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
-import { Box, Typography, Sheet, Grid, Card, CardContent, Container, List, ListItem, ListItemDecorator } from '@mui/joy';
+import { Box, Typography, Grid, Card, CardContent, Container, List, ListItem, ListItemDecorator } from '@mui/joy';
 import { MapPin, Phone, Mail, Check } from 'lucide-react';
 
 // Top navigation bar

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sheet, Typography, Box, Container, Grid, Divider, List, ListItem, ListItemDecorator} from '@mui/joy';
+import { Sheet, Typography, Container, Grid, Divider, List, ListItem, ListItemDecorator} from '@mui/joy';
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail } from 'lucide-react';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -10,8 +10,9 @@ const Footer = () => {
       component="footer"
       sx={{
         py: 6,
-        bgcolor: 'rgba(0, 0, 0, 0.8)',
+        bgcolor: 'rgba(0, 0, 0, 0.2)',
         color: 'white',
+        backdropFilter: 'blur(40px)'
       }}
     >
       <Container maxWidth="lg">
@@ -41,7 +42,7 @@ const Footer = () => {
               Follow Us
             </Typography>
             <Link to="https://www.facebook.com/stemcellmedics" style={{ display: 'block', marginBottom: '8px', color: 'white', textDecoration: 'none' }}>
-              Facebook
+                <FacebookIcon sx={{fontSize: '30px', color: 'white'}} />
             </Link>
           </Grid>
           <Grid item xs={12} sm={4}>
