@@ -6,6 +6,7 @@ import { Box, Button, Typography, Grid, Container, Card, CardContent } from '@mu
 import {  MicroscopeIcon, HeartPulseIcon, BrainIcon, UserIcon,
           BabyIcon, BuildingIcon, StarIcon, ActivityIcon
  } from 'lucide-react';
+//  import { isMobile } from "react-device-detect";
 
 import Header from '../components/topNavBar copy';
 import Footer from '../components/footer';
@@ -13,11 +14,13 @@ import CarouselServices from '../components/rotatingServicecards-transparent-car
 
 // here the images are imported
 import dna from '../images/dna.png';
+import dna_mirror from '../images/dna_mirror.jpg';
 import stem_cells from '../images/stem_cells.png';
 import regenerative_therapy from '../images/regenerative_therapy.png';
 import personalized_care from '../images/personalized_care.png';
 import orthopedics from '../images/orthopedics.png';
 import plastic_surgery from '../images/plastic_surgery.jpg';
+import { isMobile } from 'react-device-detect';
 
 const theme = extendTheme({
   colorSchemes: {
@@ -90,16 +93,19 @@ export default function HomePage() {
         <Box
           sx={{
             display: 'flex',
-            // width: '100vw',
             overflowX: 'hidden',
             paddingRight: '2px',
             flexDirection: 'column',
             minHeight: '100vh',
             position: 'relative',
-            backgroundImage: `url(${dna})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            // color: 'common.white',
+            backgroundImage: !isMobile ? `url(${dna})` : `url(${dna_mirror})`,
+            backgroundSize: 'cover', // Zoom in the background image on mobile
+            backgroundPosition: isMobile ? 'left center' : 'center 90%',
+            // filter: isMobile ? 'blur(4px)' : 'none',
+            backgroundRepeat: 'no-repeat',
+            backgroundAttachment: 'fixed',
+            WebkitBackgroundSize: 'cover', // For Safari support
+            mozBackgroundSize: 'cover',    // For Firefox support
           }}
         >
           {/* Overlay to adjust background visibility */}
@@ -159,6 +165,9 @@ export default function HomePage() {
                           bgcolor: 'primary.50',
                           color: 'primary.700',
                           '&:hover': { bgcolor: 'primary.100' },
+                        }}
+                        onClick={() => {
+                          navigate('/about')
                         }}
                       >
                         Learn More

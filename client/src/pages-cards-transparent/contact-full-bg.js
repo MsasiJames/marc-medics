@@ -110,7 +110,8 @@ export default function Contact() {
                     required 
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    sx={{ 
+                    sx={{
+                      color: 'white',
                       bgcolor: 'rgba(255, 255, 255, 0.1)',
                       '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.2)' },
                       '&:focus-within': { bgcolor: 'rgba(255, 255, 255, 0.3)' },
@@ -124,7 +125,8 @@ export default function Contact() {
                     required 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    sx={{ 
+                    sx={{
+                      color: 'white',
                       bgcolor: 'rgba(255, 255, 255, 0.1)',
                       '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.2)' },
                       '&:focus-within': { bgcolor: 'rgba(255, 255, 255, 0.3)' },
@@ -137,7 +139,8 @@ export default function Contact() {
                     required 
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
-                    sx={{ 
+                    sx={{
+                      color: 'white',
                       bgcolor: 'rgba(255, 255, 255, 0.1)',
                       '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.2)' },
                       '&:focus-within': { bgcolor: 'rgba(255, 255, 255, 0.3)' },
@@ -151,7 +154,8 @@ export default function Contact() {
                     required 
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    sx={{ 
+                    sx={{
+                      color: 'white',
                       bgcolor: 'rgba(255, 255, 255, 0.1)',
                       '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.2)' },
                       '&:focus-within': { bgcolor: 'rgba(255, 255, 255, 0.3)' },

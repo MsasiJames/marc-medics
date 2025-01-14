@@ -66,7 +66,7 @@ export default function About() {
           bottom: 0,
           backgroundImage: `url(${dna})`,
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundPosition: 'center 10%',
           zIndex: -1,
           bgcolor: 'rgba(255, 255, 255, 0.1)'
         },

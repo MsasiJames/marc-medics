@@ -92,7 +92,7 @@ export default function Contact() {
               <form onSubmit={handleSubmit}>
                 <FormControl sx={{ mb: 2 }}>
                   <FormLabel>Name</FormLabel>
-                  <Input required />
+                  <Input color='primary' required />
                 </FormControl>
                 <FormControl sx={{ mb: 2 }}>
                   <FormLabel>Email</FormLabel>
