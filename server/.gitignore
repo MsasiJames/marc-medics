@@ -1,2 +1,4 @@
 /node_modules
 .gcloudignore
+passwords.txt
+.env

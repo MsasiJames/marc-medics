@@ -1,8 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const axios = require('axios');
-require('dotenv').config();
+
+const nodemailer = require('nodemailer');
 
 const app = express();
 
@@ -158,25 +160,102 @@ const submitToCF7 = async (formData) => {
 };
   
 // Endpoint for contact form
+async function sendEmail(name, email, subject, message){
+  try {
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: "notify.marcmedics@gmail.com",
+        pass: process.env.GMAIL_APP_PASSWORD,
+      },
+    });
+
+    const info = await transporter.sendMail({
+      from: 'notify.marcmedics@gmail.com',
+      to: ['info@marcmedics.com', 'jamesmsasi67@gmail.com'],
+      subject: "Customer Inquiry",
+      html: `
+        <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; padding: 20px; border: 1px solid #ddd; border-radius: 5px;">
+          <h2 style="color: #4CAF50;">Customer Inquiry</h2>
+          <p style="font-size: 16px;">You have received a new message from a customer. Here are the details:</p>
+          <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+            <tr style="background-color: #f9f9f9;">
+              <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Name</th>
+              <td style="padding: 8px; border: 1px solid #ddd;">${name}</td>
+            </tr>
+            <tr>
+              <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Email</th>
+              <td style="padding: 8px; border: 1px solid #ddd;">${email}</td>
+            </tr>
+            <tr>
+              <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Subject</th>
+              <td style="padding: 8px; border: 1px solid #ddd;">${subject}</td>
+            </tr>
+            <tr>
+              <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Message</th>
+              <td style="padding: 8px; border: 1px solid #ddd;">${message}</td>
+            </tr>
+          </table>
+          <p style="margin-top: 20px; font-size: 14px; color: #666;">Please follow up with the customer as soon as possible.</p>
+        </div>
+      `,
+    });
+
+    console.log('Email sent:', info.messageId);
+    console.log('Message sent to:', 'info@marcmedics.com', 'jamesmsasi67@gmail.com'); 
+    return { success: true, messageId: info.messageId };
+  } catch (error) {
+    console.error('Failed to send email:', error.message);
+    return { success: false, error: 'Failed to send email. Please try again later.' };
+  }
+}
+
 app.post('/contact', async (req, res) => {
   try {
-    const reqBody = req.body;
+    const { name, email, subject, message } = req.body;
 
     // Validate incoming request
-    if (!reqBody.name || !reqBody.email || !reqBody.message) {
-      return res.status(400).json({ success: false, message: 'All fields are required.' });
+    if (!name || !email || !message) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Validation error: All fields (name, email, message) are required.' 
+      });
     }
 
-    const result = await submitToCF7(reqBody);
+    // Submit to Contact Form 7 or other external service
+    const result = await submitToCF7({ name, email, subject, message });
+
+    // Send email notification
+    const emailResponse = await sendEmail(name, email, subject, message);
+
+    if (!emailResponse.success) {
+      return res.status(502).json({ 
+        success: false, 
+        message: 'Submission successful, but email notification failed.',
+        emailError: emailResponse.error 
+      });
+    }
 
     if (result.success) {
-      return res.status(200).json({ success: true, message: result.message });
+      return res.status(200).json({ 
+        success: true, 
+        message: 'Submission successful, and email notification sent.' 
+      });
     } else {
-      return res.status(500).json({ success: false, message: result.message });
+      return res.status(500).json({ 
+        success: false, 
+        message: 'Submission failed. Please try again later.',
+        submissionError: result.message 
+      });
     }
   } catch (error) {
-    console.error('Unexpected error:', error);
-    return res.status(500).json({ success: false, message: 'Internal server error.' });
+    console.error('Unexpected error:', error.message);
+    return res.status(500).json({ 
+      success: false, 
+      message: 'Internal server error. Please try again later.' 
+    });
   }
 });
 
