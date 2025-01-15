@@ -14,7 +14,7 @@ import CarouselServices from '../components/rotatingServicecards-transparent-car
 
 // here the images are imported
 import dna from '../images/dna.png';
-import dna_mirror from '../images/dna_mirror.jpg';
+import dna_mirror from '../images/dna_mirror-Photoroom.png';
 import stem_cells from '../images/stem_cells.png';
 import regenerative_therapy from '../images/regenerative_therapy.png';
 import personalized_care from '../images/personalized_care.png';
@@ -49,6 +49,7 @@ const theme = extendTheme({
     body: "'Roboto', sans-serif",
     display: "'Montserrat', sans-serif",
   },
+  
 });
 
 const services = [
@@ -93,14 +94,16 @@ export default function HomePage() {
         <Box
           sx={{
             display: 'flex',
-            overflowX: 'hidden',
+            flexGrow: 1,
+            height: '100%',
+            overflow: 'hidden',
             paddingRight: '2px',
             flexDirection: 'column',
             minHeight: '100vh',
             position: 'relative',
             backgroundImage: !isMobile ? `url(${dna})` : `url(${dna_mirror})`,
             backgroundSize: 'cover', // Zoom in the background image on mobile
-            backgroundPosition: isMobile ? 'left center' : 'center 90%',
+            backgroundPosition: isMobile ? 'calc(100% + 50px) 10%' : 'center 90%',
             // filter: isMobile ? 'blur(4px)' : 'none',
             backgroundRepeat: 'no-repeat',
             backgroundAttachment: 'fixed',
