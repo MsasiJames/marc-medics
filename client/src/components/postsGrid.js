@@ -34,6 +34,24 @@ const theme = extendTheme({
 });
 
 const PostModal = ({ post, open, onClose }) => {
+    const formatContent = (content) => {
+        if (!content) return [];
+        // Remove HTML tags and split the content by '.'
+        const sentences = content.replace(/<[^>]*>?/gm, '').split('.');
+        // Group sentences in chunks of 4
+        const formattedContent = sentences.reduce((acc, sentence, index) => {
+            if (sentence.trim() === '') return acc; // Skip empty sentences
+            const chunkIndex = Math.floor(index / 4);
+            acc[chunkIndex] = acc[chunkIndex] || [];
+            acc[chunkIndex].push(sentence.trim());
+            return acc;
+        }, []);
+        // Return chunks joined by '. ' as individual paragraphs
+        return formattedContent.map(chunk => chunk.join('. ') + '.');
+    };
+
+    const paragraphs = formatContent(post?.content);
+
     return (
         <Modal
             aria-labelledby="modal-title"
@@ -74,9 +92,17 @@ const PostModal = ({ post, open, onClose }) => {
                         style={{ width: '100%', borderRadius: '8px', marginBottom: '16px' }}
                     />
                 ) : (
-                    <Typography level="body1" sx={{ color: 'white' }}>
-                        {post?.content?.replace(/<[^>]*>?/gm, '')}
-                    </Typography>
+                    <div>
+                        {paragraphs.map((paragraph, index) => (
+                            <Typography
+                                key={index}
+                                level="body1"
+                                sx={{ color: 'white', marginBottom: 2, whiteSpace: 'pre-wrap' }}
+                            >
+                                {paragraph}
+                            </Typography>
+                        ))}
+                    </div>
                 )}
             </Sheet>
         </Modal>
