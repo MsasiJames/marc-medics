@@ -13,7 +13,7 @@ import Footer from '../components/footer';
 import CarouselServices from '../components/rotatingServicecards-transparent-cards';
 
 // here the images are imported
-import dna from '../images/dna-24.jpg';
+import dna from '../images/dna-23.jpg';
 import dna_mirror from '../images/dna_mirror-Photoroom.png';
 import stem_cells from '../images/stem_cells.png';
 import regenerative_therapy from '../images/regenerative_therapy.png';
@@ -101,7 +101,8 @@ export default function HomePage() {
             flexDirection: 'column',
             minHeight: '100vh',
             position: 'relative',
-            backgroundImage: !isMobile ? `url(${dna})` : `url(${dna_mirror})`,
+            //backgroundImage: !isMobile ? `url(${dna})` : `url(${dna_mirror})`,
+            backgroundImage: `url(${dna})`,   
             backgroundSize: 'cover', // Zoom in the background image on mobile
             backgroundPosition: isMobile ? 'calc(100% + 50px) 10%' : 'center 90%',
             // filter: isMobile ? 'blur(4px)' : 'none',

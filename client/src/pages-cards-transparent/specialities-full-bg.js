@@ -11,7 +11,7 @@ import Header from '../components/topNavBar copy';
 import Footer from '../components/footer';
 
 // background image
-import dna from '../images/dna.png';
+import dna from '../images/dna-23.jpg';
 
 // post Grid
 import PostsGrid from '../components/postsGrid';
