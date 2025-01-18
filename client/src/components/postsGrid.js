@@ -176,7 +176,7 @@ const PostsGrid = ({ posts }) => {
                             <Card
                                 key={`${colIndex}-${index}`}
                                 sx={{
-                                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                    backgroundColor: 'rgba(255, 255, 255, 1)',
                                     backdropFilter: 'blur(20px)',
                                     transition: 'transform 0.2s ease-in-out',
                                     display: 'flex',
@@ -198,7 +198,7 @@ const PostsGrid = ({ posts }) => {
                                     </Typography>
                                     <Typography 
                                         level="body2" 
-                                        sx={{ mb: 2, color: 'white', flexGrow: 1 }}
+                                        sx={{ mb: 2, color: 'black', flexGrow: 1 }}
                                     >
                                         {post.content.replace(/<[^>]*>?/gm, '').slice(0, 500)}...
                                     </Typography>
