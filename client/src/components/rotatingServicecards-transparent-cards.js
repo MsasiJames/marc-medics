@@ -76,7 +76,7 @@ const CarouselServices = ({ services }) => {
                   width: '90%',
                   height: '90%',
                   opacity: absoluteDistance > 2 ? 0 : 1,
-                  bgcolor: 'rgba(255, 255, 255, 0)',
+                  bgcolor: 'rgba(255, 255, 255, 1)',
                   backdropFilter: 'blur(20px)',
                   // background: `linear-gradient(to bottom, ${theme.vars.palette.background.body}, ${theme.vars.palette.primary[50]})`,
                   transform: `
@@ -110,7 +110,7 @@ const CarouselServices = ({ services }) => {
                       opacity: 1 - absoluteDistance * 0.3,
                       fontFamily: 'display',
                       textAlign: 'center',
-                      color: 'white'
+                      color: 'black'
                     }}
                   >
                     {service.title}
@@ -121,7 +121,7 @@ const CarouselServices = ({ services }) => {
                       flex: 1,
                       overflow: 'auto',
                       textAlign: 'center',
-                      color: 'white'
+                      color: 'black'
                     }}
                   >
                     {service.description}
