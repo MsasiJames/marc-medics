@@ -56,11 +56,11 @@ const Footer = () => {
                     </ListItem>
                     <ListItem sx={{color: 'white'}}>
                       <ListItemDecorator><Phone color="white" /></ListItemDecorator>
-                      +63 (2) 1234 5678
+                      +63 2 83535445
                     </ListItem>
                     <ListItem sx={{color: 'white'}}>
                       <ListItemDecorator><Mail color="white" /></ListItemDecorator>
-                      info@marcmedical.com
+                      info@marcmedics.com
                     </ListItem>
                   </List>
           </Grid>

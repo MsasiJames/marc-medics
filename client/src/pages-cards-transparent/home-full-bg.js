@@ -13,7 +13,7 @@ import Footer from '../components/footer';
 import CarouselServices from '../components/rotatingServicecards-transparent-cards';
 
 // here the images are imported
-import dna from '../images/dna.png';
+import dna from '../images/dna-24.jpg';
 import dna_mirror from '../images/dna_mirror-Photoroom.png';
 import stem_cells from '../images/stem_cells.png';
 import regenerative_therapy from '../images/regenerative_therapy.png';
@@ -238,7 +238,7 @@ export default function HomePage() {
                             transition: 'all 0.3s ease-in-out',
                             position: 'relative',
                             overflow: 'hidden',
-                            bgcolor: 'rgba(255, 255, 255, 0)',
+                            bgcolor: 'rgba(255, 255, 255, 1)',
                             backdropFilter: 'blur(20px)',
                             // background: 'linear-gradient(to bottom, #ffffff, #f0f7ff)',
                             '&:hover': {
@@ -295,7 +295,7 @@ export default function HomePage() {
                                   fontFamily: 'display',
                                   textAlign: 'center',
                                   mb: 2,
-                                  color: 'white'
+                                  color: 'black'
                                 }}
                               >
                                 {item.title}
@@ -312,7 +312,7 @@ export default function HomePage() {
                                   WebkitLineClamp: 3,
                                   WebkitBoxOrient: 'vertical',
                                   overflow: 'hidden',
-                                  color: 'white'
+                                  color: 'black'
                                 }}
                               >
                                 {item.description}
@@ -332,7 +332,7 @@ export default function HomePage() {
                                 textAlign: 'center',
                                 lineHeight: 1.6,
                                 fontSize: '0.875rem',
-                                color: 'white'
+                                color: 'black'
                               }}
                             >
                               {item.description}
