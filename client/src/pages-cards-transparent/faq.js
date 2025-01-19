@@ -153,10 +153,10 @@ export default function FAQ() {
                 <AccordionDetails
                   variant="soft"
                   sx={{
-                    bgcolor: 'rgba(255, 255, 255, 0) !important', // Ensure transparency
+                    bgcolor: 'rgba(255, 255, 255, 1) !important', // Ensure transparency
                   }}
                 >
-                  <Typography sx={{ color: 'white' }}>{faq.answer}</Typography>
+                  <Typography sx={{ color: 'black' }}>{faq.answer}</Typography>
                 </AccordionDetails>
               </Accordion>
             ))}

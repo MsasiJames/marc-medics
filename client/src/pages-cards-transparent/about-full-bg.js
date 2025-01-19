@@ -83,7 +83,7 @@ export default function About() {
               <Card variant="outlined" 
                   sx={{ 
                     height: '100%', 
-                    bgcolor: 'rgba(255, 255, 255, 0)',
+                    bgcolor: 'rgba(255, 255, 255, 1)',
                     backdropFilter: 'blur(20px)',
                     // background: 'linear-gradient(to bottom, #ffffff, #f0f7ff)',
                     // backdropFilter: 'blur(8px)',
@@ -97,20 +97,20 @@ export default function About() {
                   <Typography level="h3" component="h2" sx={{ mb: 2, fontFamily: 'display', color: 'primary.500' }}>
                     About MARC Medical
                   </Typography>
-                  <Typography sx={{ mb: 2, color: 'white' }}>
+                  <Typography sx={{ mb: 2, color: 'black' }}>
                     Located in the heart of Manila in Makati, MARC Medical is a state-of-the-art treatment facility offering exclusive options from the best practitioners.
                   </Typography>
                   <List>
-                    <ListItem sx={{color: 'white'}}>
-                      <ListItemDecorator><Check color="white" /></ListItemDecorator>
+                    <ListItem sx={{color: 'black'}}>
+                      <ListItemDecorator><Check color="black" /></ListItemDecorator>
                       Fully equipped day case surgical center of excellence
                     </ListItem>
-                    <ListItem sx={{color: 'white'}}>
-                      <ListItemDecorator><Check color="white" /></ListItemDecorator>
+                    <ListItem sx={{color: 'black'}}>
+                      <ListItemDecorator><Check color="black" /></ListItemDecorator>
                       Exclusive treatment options from the best practitioners
                     </ListItem>
-                    <ListItem sx={{color: 'white'}}>
-                      <ListItemDecorator><Check color="white" /></ListItemDecorator>
+                    <ListItem sx={{color: 'black'}}>
+                      <ListItemDecorator><Check color="black" /></ListItemDecorator>
                       Conveniently situated in Centuria Medical Makati
                     </ListItem>
                   </List>
@@ -125,7 +125,7 @@ export default function About() {
                     height: '100%', 
                     // background: 'linear-gradient(to bottom, #ffffff, #f0f7ff)',
                     // backdropFilter: 'blur(8px)',
-                    bgcolor: 'rgba(255, 255, 255, 0)',
+                    bgcolor: 'rgba(255, 255, 255, 1)',
                     backdropFilter: 'blur(20px)',
                     transition: 'transform 0.3s ease-in-out', // Smooth transition
                     '&:hover': {
@@ -138,16 +138,16 @@ export default function About() {
                     Location & Contact
                   </Typography>
                   <List>
-                    <ListItem sx={{color: 'white'}}>
-                      <ListItemDecorator><MapPin color="white" /></ListItemDecorator>
+                    <ListItem sx={{color: 'black'}}>
+                      <ListItemDecorator><MapPin color="black" /></ListItemDecorator>
                       Suite 2004, Centuria Medical Makati, Kalayaan Avenue, Makati City 1200, Philippines
                     </ListItem>
-                    <ListItem sx={{color: 'white'}}>
-                      <ListItemDecorator><Phone color="white" /></ListItemDecorator>
+                    <ListItem sx={{color: 'black'}}>
+                      <ListItemDecorator><Phone color="black" /></ListItemDecorator>
                       +63 2 83535445
                     </ListItem>
-                    <ListItem sx={{color: 'white'}}>
-                      <ListItemDecorator><Mail color="white" /></ListItemDecorator>
+                    <ListItem sx={{color: 'black'}}>
+                      <ListItemDecorator><Mail color="black" /></ListItemDecorator>
                       info@marcmedics.com
                     </ListItem>
                   </List>
@@ -161,7 +161,7 @@ export default function About() {
                 sx={{ 
                   // background: 'linear-gradient(to bottom, #ffffff, #f0f7ff)',
                   // backdropFilter: 'blur(8px)',
-                  bgcolor: 'rgba(255, 255, 255, 0)',
+                  bgcolor: 'rgba(255, 255, 255, 1)',
                   backdropFilter: 'blur(20px)',
                   transition: 'transform 0.3s ease-in-out', // Smooth transition
                     '&:hover': {
@@ -173,14 +173,14 @@ export default function About() {
                   <Typography level="h3" component="h2" sx={{ mb: 2, fontFamily: 'display', color: 'primary.500' }}>
                     Our Services
                   </Typography>
-                  <Typography sx={{ mb: 2, color: "white" }}>
+                  <Typography sx={{ mb: 2, color: "black" }}>
                     MARC stem cell clinic Manila offers a wide range of medical services. In addition to our specialized treatments, we can arrange access to various other medical services within the same building:
                   </Typography>
                   <Grid container spacing={2}>
                     {services.map((service, index) => (
                       <Grid key={index} xs={12} sm={6} md={4}>
-                        <ListItem sx={{color: 'white'}}>
-                          <ListItemDecorator><Check color="white" /></ListItemDecorator>
+                        <ListItem sx={{color: 'black'}}>
+                          <ListItemDecorator><Check color="black" /></ListItemDecorator>
                           {service}
                         </ListItem>
                       </Grid>
@@ -196,7 +196,7 @@ export default function About() {
                   sx={{ 
                     // background: 'linear-gradient(to bottom, #ffffff, #f0f7ff)',
                     // backdropFilter: 'blur(8px)',
-                    bgcolor: 'rgba(255, 255, 255, 0)',
+                    bgcolor: 'rgba(255, 255, 255, 1)',
                     backdropFilter: 'blur(20px)',
                     transition: 'transform 0.3s ease-in-out', // Smooth transition
                     '&:hover': {
@@ -208,40 +208,40 @@ export default function About() {
                   <Typography level="h3" component="h2" sx={{ mb: 2, fontFamily: 'display', color: 'primary.500' }}>
                     Additional Facilities
                   </Typography>
-                  <Typography sx={{ mb: 2, color: 'white' }}>
+                  <Typography sx={{ mb: 2, color: 'black' }}>
                     Centuria Medical Makati's healthcare services also include:
                   </Typography>
                   <List>
-                    <ListItem sx={{color: "white"}}>
-                      <ListItemDecorator><Check color="white" /></ListItemDecorator>
+                    <ListItem sx={{color: "black"}}>
+                      <ListItemDecorator><Check color="black" /></ListItemDecorator>
                       Day Surgery Center
                     </ListItem>
-                    <ListItem sx={{color: "white"}}>
-                      <ListItemDecorator><Check color="white" /></ListItemDecorator>
+                    <ListItem sx={{color: "black"}}>
+                      <ListItemDecorator><Check color="black" /></ListItemDecorator>
                       Radiology center
                     </ListItem>
-                    <ListItem sx={{color: "white"}}>
-                      <ListItemDecorator><Check color="white" /></ListItemDecorator>
+                    <ListItem sx={{color: "black"}}>
+                      <ListItemDecorator><Check color="black" /></ListItemDecorator>
                       Diagnostic laboratory
                     </ListItem>
-                    <ListItem sx={{color: "white"}}>
-                      <ListItemDecorator><Check color="white" /></ListItemDecorator>
+                    <ListItem sx={{color: "black"}}>
+                      <ListItemDecorator><Check color="black" /></ListItemDecorator>
                       Digital imaging
                     </ListItem>
-                    <ListItem sx={{color: "white"}}>
-                      <ListItemDecorator><Check color="white" /></ListItemDecorator>
+                    <ListItem sx={{color: "black"}}>
+                      <ListItemDecorator><Check color="black" /></ListItemDecorator>
                       Pharmacy
                     </ListItem>
-                    <ListItem sx={{color: "white"}}>
-                      <ListItemDecorator><Check color="white" /></ListItemDecorator>
+                    <ListItem sx={{color: "black"}}>
+                      <ListItemDecorator><Check color="black" /></ListItemDecorator>
                       Recovery suites
                     </ListItem>
-                    <ListItem sx={{color: "white"}}>
-                      <ListItemDecorator><Check color="white" /></ListItemDecorator>
+                    <ListItem sx={{color: "black"}}>
+                      <ListItemDecorator><Check color="black" /></ListItemDecorator>
                       Ambulance transfer service
                     </ListItem>
                   </List>
-                  <Typography sx={{ mt: 2, color: "white" }}>
+                  <Typography sx={{ mt: 2, color: "black" }}>
                     We can also arrange convenient hotel accommodations near our location for your stay.
                   </Typography>
                 </CardContent>

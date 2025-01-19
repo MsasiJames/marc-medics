@@ -73,7 +73,7 @@ const PostModal = ({ post, open, onClose }) => {
                     borderRadius: 'md',
                     p: 3,
                     boxShadow: 'lg',
-                    backgroundColor: 'transparent',
+                    backgroundColor: 'white',  // before it was transparent
                     backdropFilter: 'blur(80px)'
                 }}
             >
@@ -97,7 +97,7 @@ const PostModal = ({ post, open, onClose }) => {
                             <Typography
                                 key={index}
                                 level="body1"
-                                sx={{ color: 'white', marginBottom: 2, whiteSpace: 'pre-wrap' }}
+                                sx={{ color: 'black', marginBottom: 2, whiteSpace: 'pre-wrap' }}
                             >
                                 {paragraph}
                             </Typography>

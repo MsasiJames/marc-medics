@@ -14,7 +14,6 @@ import CarouselServices from '../components/rotatingServicecards-transparent-car
 
 // here the images are imported
 import dna from '../images/dna-23.jpg';
-import dna_mirror from '../images/dna_mirror-Photoroom.png';
 import stem_cells from '../images/stem_cells.png';
 import regenerative_therapy from '../images/regenerative_therapy.png';
 import personalized_care from '../images/personalized_care.png';
