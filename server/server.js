@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 
 // Initialize Google Cloud Storage
 const storage = new Storage({
-  keyFilename: path.join(__dirname, 'credentials/xenon-lyceum-442506-i4-5df1e6e00e44.json') // Replace with the path to your service account key file
+  keyFilename: path.join(__dirname, 'credentials/creds.json') // Replace with the path to your service account key file
 });
 
 // Your GCS bucket and file details

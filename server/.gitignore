@@ -2,3 +2,5 @@
 .gcloudignore
 passwords.txt
 .env
+creds.json
+credentials/
