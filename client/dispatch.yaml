@@ -1,0 +1,5 @@
+dispatch:
+  - url: marcmedics.com/*
+    service: marc-medics-frontend-v5
+  - url: www.marcmedics.com/*
+    service: marc-medics-frontend-v5
