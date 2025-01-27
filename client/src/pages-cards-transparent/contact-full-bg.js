@@ -1,7 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { CssVarsProvider, extendTheme } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
-import { Box, Typography, Container, Card, CardContent, Input, Textarea, Button, FormControl, FormLabel, Snackbar } from '@mui/joy';
+import {  Box, Typography, Container, Card, CardContent, 
+          Input, Textarea, Button, FormControl, FormLabel, 
+          Snackbar, CircularProgress } from '@mui/joy';
 import Header from '../components/topNavBar copy';
 import Footer from '../components/footer';
 import dna from '../images/dna-23.jpg';
@@ -41,10 +44,12 @@ export default function Contact() {
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [snackbar, setSnackbar] = useState({ open: false, message: '', color: 'primary' });
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (event) => {
+    setLoading(true);
     event.preventDefault();
-      fetch('https://marc-medics-backend-dot-xenon-lyceum-442506-i4.as.r.appspot.com/contact', {
+      fetch('http://127.0.0.1:8080/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -66,6 +71,9 @@ export default function Contact() {
       .catch((error) => {
         console.error('Error while sending form:', error);
         setSnackbar({ open: true, message: 'An error occurred. Please try again later.', color: 'danger' });
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -171,7 +179,7 @@ export default function Contact() {
                     '&:hover': { bgcolor: 'primary.600' },
                   }}
                 >
-                  Send Message
+                  {loading ? <CircularProgress size="sm" color="neutral" /> : 'Send Message'}
                 </Button>
               </form>
             </CardContent>
