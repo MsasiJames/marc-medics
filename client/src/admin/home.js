@@ -14,6 +14,7 @@ import { useDemoRouter } from '@toolpad/core/internal';
 
 // components
 import ContactManage from './contact/contactManage';
+import PostManage from './post/postManage';
 
 const NAVIGATION = [
   {
@@ -51,7 +52,11 @@ const demoTheme = createTheme({
 function DemoPageContent({ pathname }) {
     const [token] = useState(localStorage.getItem("token"))
     const [contactForms, setContactForms] = useState([]);
+    const [allPosts, setAllPosts] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [allPostsLoading, setAllPostsLoading] = useState(false);
+
+    const [fetchDataAgain, setFetchDataAgain] = useState(Math.random());
 
     const getContactForms = async () => {
         setLoading(true);
@@ -75,22 +80,44 @@ function DemoPageContent({ pathname }) {
             setLoading(false);
           console.error("Error:", error)
         }
-    }
+    };
+
+    const getAllPosts = async () => {
+      setAllPostsLoading(true);
+        try {
+          const response = await fetch("http://127.0.0.1:8080/all-posts", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          })
+    
+          if (response.ok) {
+            const data = await response.json()
+            setAllPosts(data)
+          } else {
+            console.error("Error while fetching contact forms")
+          }
+          setAllPostsLoading(false);
+        } catch (error) {
+          setAllPostsLoading(false);
+            console.error("Error:", error)
+        }
+    };
 
     useEffect(() => {
         getContactForms();
-    }, []);
+        getAllPosts();
+    }, [fetchDataAgain, ]);
 
     const renderContent = () => {
-      switch (pathname) {
-        case '/contact':
-          return <ContactManage contactForms={contactForms} loading={loading}/>;
-        case '/news':
-          return <Typography>News Management Content</Typography>;
-        default:
-          return <Typography>Dashboard content for {pathname}</Typography>;
+      if (pathname === '/contact') {
+          return <ContactManage contactForms={contactForms} loading={loading} />;
       }
-    };
+      // Default to '/news' if pathname is anything else
+      return <PostManage posts={allPosts} setFetchDataAgain={setFetchDataAgain} loading={allPostsLoading} />;
+  };
   
     return (
       <Box

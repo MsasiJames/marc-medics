@@ -14,6 +14,7 @@ import { PostsProvider } from './components/postsContext.js';
 // Admin pages
 import LoginPage from './admin/login.js';
 import AdminHome from './admin/home.js';
+import PrivateRoute from './admin/private/privateRoute.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -29,7 +30,7 @@ root.render(
 
         {/* Admin pages */}
         <Route exact path="/admin" element={<LoginPage />} />
-        <Route exact path="/adminHome" element={<AdminHome />} />
+        <Route exact path="/adminHome" element={<PrivateRoute element={<AdminHome />} />} />
 
 
       </Routes>

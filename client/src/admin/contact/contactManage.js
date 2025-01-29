@@ -1,27 +1,24 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-  Paper,
-  IconButton,
-  Box,
-  Snackbar,
-  CircularProgress,
-  Alert
+  Table, TableBody, TableCell,
+  TableContainer, TableHead, TableRow, 
+  Paper, IconButton, Box, 
+  Snackbar, CircularProgress, Alert,
+  Dialog, DialogActions, DialogContent, DialogContentText, 
+  DialogTitle, Button
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Loader from "../../loaders/loader-spinner";
 
 function ContactManage({ contactForms, loading }) {
   const token = localStorage.getItem("token");
-  const [deleting, setDeleting] = useState({});
   const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
+  const [contactFormToDeleteId, setContactFormsToDeleteId] = useState(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteFormLoading, setDeleteFormLoading] = useState(false);
+
+
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -29,7 +26,6 @@ function ContactManage({ contactForms, loading }) {
   };
 
   const deleteContactFormEntry = async (id) => {
-    setDeleting((prev) => ({ ...prev, [id]: true })); // Set loading for the specific ID
 
     try {
       const response = await fetch("http://127.0.0.1:8080/delete-contact-form", {
@@ -39,7 +35,7 @@ function ContactManage({ contactForms, loading }) {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          id: id,
+          id: contactFormToDeleteId,
         }),
       });
 
@@ -55,7 +51,7 @@ function ContactManage({ contactForms, loading }) {
       console.error("Error:", error);
       setSnackbar({ open: true, message: "An error occurred while deleting the entry.", severity: "error" });
     } finally {
-      setDeleting((prev) => ({ ...prev, [id]: false })); // Stop loading for the specific ID
+      handleCloseDeleteDialog();
     }
   };
 
@@ -63,12 +59,22 @@ function ContactManage({ contactForms, loading }) {
     setSnackbar((prev) => ({ ...prev, open: false }));
   };
 
+  const handleOpenDeleteDialog = (id) => {
+    console.log("Setting post ID to delete:", id);
+    setContactFormsToDeleteId(id);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleCloseDeleteDialog = () => {
+      setDeleteDialogOpen(false);
+  };
+
   return (
     <>
       <TableContainer component={Paper} sx={{ border: "0.5px solid #ccc", borderRadius: "4px" }}>
-        <Typography variant="h6" component="div" sx={{ p: 2 }}>
+        {/* <Typography variant="h6" component="div" sx={{ p: 2 }}>
           Contact Form Submissions
-        </Typography>
+        </Typography> */}
         {loading ? (
           <Box
             sx={{
@@ -103,10 +109,12 @@ function ContactManage({ contactForms, loading }) {
                   <TableCell>
                     <IconButton
                       aria-label="delete"
-                      onClick={() => deleteContactFormEntry(form.id)}
-                      disabled={deleting[form.id]} // Disable button during deletion
+                      onClick={() => {
+                        handleOpenDeleteDialog(form.id)
+                      }}
+                      color="error"
                     >
-                      {deleting[form.id] ? <CircularProgress size={24} /> : <DeleteIcon />}
+                      <DeleteIcon />
                     </IconButton>
                   </TableCell>
                 </TableRow>
@@ -125,6 +133,20 @@ function ContactManage({ contactForms, loading }) {
           {snackbar.message}
         </Alert>
       </Snackbar>
+
+      {/* DELETE POST DIALOG */}
+      <Dialog open={deleteDialogOpen} onClose={handleCloseDeleteDialog}>
+          <DialogTitle>Confirm Delete</DialogTitle>
+          <DialogContent>
+              <DialogContentText>Are you sure you want to delete this contact form record?</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+              <Button onClick={handleCloseDeleteDialog} color="primary">Cancel</Button>
+              <Button onClick={deleteContactFormEntry} color="error">
+                {deleteFormLoading ? <CircularProgress size={24} color="inherit" /> : "Delete"}
+              </Button>
+          </DialogActions>
+      </Dialog>
     </>
   );
 }
