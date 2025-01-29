@@ -49,44 +49,6 @@ app.get('/', (req, res) => {
 });
 
 // Utility function to clean text
-function cleanText(inputText) {
-  if (!inputText) return '';
-
-  // Step 1: Unescape HTML entities
-  let unescapedText = inputText
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&#8216;/g, "'")
-    .replace(/&#8217;/g, "'")
-    .replace(/&#8220;/g, '"')
-    .replace(/&#8221;/g, '"')
-    .replace(/&#8230;/g, '...')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&quot;/g, '"')
-    .replace(/&apos;/g, "'");
-
-  // Step 2: Decode escaped Unicode characters like \u003C (e.g., <header>)
-  unescapedText = unescapedText.replace(/\\u([0-9A-Fa-f]{4})/g, (_, code) => String.fromCharCode(parseInt(code, 16)));
-
-  // Step 3: Remove HTML tags (preserve the text content)
-  let cleanedText = unescapedText.replace(/<[^>]+>/g, '');
-
-  // Step 4: Remove inline styles, classes, and other unnecessary attributes
-  cleanedText = cleanedText.replace(/class="[^"]*"|style="[^"]*"|data-[^=]+="[^"]*"/g, '');
-
-  // Step 5: Remove embedded image metadata, links, and special artifacts
-  cleanedText = cleanedText.replace(/\[.*?\]/g, ''); // Remove square-bracketed metadata like [Blue stem cells]
-  cleanedText = cleanedText.replace(/http[s]?:\/\/[^\s]+/g, ''); // Remove URLs
-  cleanedText = cleanedText.replace(/Credit:.+$/, ''); // Remove credit lines (e.g., Credit: http://...)
-  
-  // Step 6: Replace special HTML character sequences (e.g., '&#8211;' for '–')
-  cleanedText = cleanedText.replace(/&#8211;/g, '–');
-
-  // Step 7: Remove extra whitespace and normalize text
-  return cleanedText.trim().replace(/\s+/g, ' ');
-}
-
 
 app.get('/posts', async (req, res) => {
   const reqQuery = req.query;
@@ -151,27 +113,21 @@ app.get('/all-posts', async (req, res) => {
       return res.status(500).json({ error: 'Invalid JSON format in the file' });
     }
 
-    // Process the posts and filter relevant data
-    const filteredPosts = posts.map(post => {
-      // Basic validation to ensure required fields are present
-      if (!post.title?.rendered || !post.content?.rendered || !post.categories?.length) {
-        console.warn("Skipping post with missing fields:", post);
-        return null;
-      }
+    // Extract the required fields from the posts
+    const extractedPosts = posts.map(post => ({
+      id:post.id,
+      title: post.title,
+      content: post.content,
+      category: post.category
+    }));
 
-      return {
-        title: cleanText(post.title.rendered),
-        content: cleanText(post.content.rendered),
-        category: post.categories[0]
-      };
-    }).filter(Boolean); // Remove null entries
-
-    res.json(filteredPosts); // Send the filtered data to the client
+    res.json(extractedPosts); // Send the extracted data to the client
   } catch (error) {
     console.error("Unexpected error while fetching posts:", error);
     res.status(500).json({ error: 'An unexpected error occurred' });
   }
 });
+
 
 // Submit form function sends to wordpress
 const submitToCF7 = async (formData) => {
@@ -263,7 +219,7 @@ async function sendEmail(name, email, subject, message){
   }
 }
 
-
+// contact form endpoints
 app.post('/contact', async (req, res) => {
   try {
     const { name, email, subject, message } = req.body;
@@ -335,7 +291,7 @@ app.post('/contact', async (req, res) => {
   }
 });
 
-app.get('/get-contact-forms', async (req, res) => {
+app.get('/get-contact-forms', authenticateToken, async (req, res) => {
   try {
     // Reference the file in GCS
     const bucket = storage.bucket(BUCKET_NAME);
@@ -370,7 +326,7 @@ app.get('/get-contact-forms', async (req, res) => {
   }
 });
 
-app.post('/delete-contact-form', async (req, res) => {
+app.post('/delete-contact-form', authenticateToken, async (req, res) => {
   try {
     const { id } = req.body;
 
@@ -438,8 +394,85 @@ app.post('/delete-contact-form', async (req, res) => {
   }
 });
 
+// post management endpoints
+app.post('/create-new-post', authenticateToken, async (req, res) => {
+  try {
+    const { title, content, category } = req.body;
+    const id = uuidv4()
+    if (!title || !content || !category) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
 
+    const bucket = storage.bucket(BUCKET_NAME);
+    const file = bucket.file(FILE_NAME);
 
+    // Read the existing JSON file
+    let jsonData = [];
+    try {
+      const [fileExists] = await file.exists();
+      if (fileExists) {
+        const [contents] = await file.download();
+        jsonData = JSON.parse(contents.toString());
+      }
+    } catch (error) {
+      console.error('Error reading file:', error);
+    }
+
+    // Append new post
+    jsonData.push({ id, title, content, category });
+
+    // Write updated JSON back to Google Cloud Storage
+    await file.save(JSON.stringify(jsonData, null, 2), {
+      contentType: 'application/json',
+    });
+
+    return res.status(200).json({ message: 'Post added successfully' });
+  } catch (error) {
+    console.error('Error processing request:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.post('/delete-post', authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.body;
+    if (!id) {
+      return res.status(400).json({ error: 'Post ID is required' });
+    }
+
+    const bucket = storage.bucket(BUCKET_NAME);
+    const file = bucket.file(FILE_NAME);
+
+    // Read the existing JSON file
+    let jsonData = [];
+    try {
+      const [fileExists] = await file.exists();
+      if (fileExists) {
+        const [contents] = await file.download();
+        jsonData = JSON.parse(contents.toString());
+      }
+    } catch (error) {
+      console.error('Error reading file:', error);
+    }
+
+    // Filter out the post to be deleted
+    const updatedData = jsonData.filter(post => post.id !== id);
+
+    if (jsonData.length === updatedData.length) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+
+    // Write updated JSON back to Google Cloud Storage
+    await file.save(JSON.stringify(updatedData, null, 2), {
+      contentType: 'application/json',
+    });
+
+    res.status(200).json({ message: 'Post deleted successfully' });
+  } catch (error) {
+    console.error('Error processing request:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 
 // Admin login
