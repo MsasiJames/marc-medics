@@ -174,13 +174,13 @@ async function sendEmail(name, email, subject, message){
       port: 465,
       secure: true,
       auth: {
-        user: "notify.marcmedics@gmail.com",
+        user: "notifications.midasgroup@gmail.com",
         pass: process.env.GMAIL_APP_PASSWORD,
       },
     });
 
     const info = await transporter.sendMail({
-      from: 'notify.marcmedics@gmail.com',
+      from: 'notifications.midasgroup@gmail.com',
       to: ['info@marcmedics.com', 'jamesmsasi67@gmail.com'],
       subject: "Customer Inquiry",
       html: `
