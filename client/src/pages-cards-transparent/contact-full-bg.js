@@ -49,7 +49,7 @@ export default function Contact() {
   const handleSubmit = (event) => {
     setLoading(true);
     event.preventDefault();
-      fetch('http://127.0.0.1:8080/contact', {
+      fetch('https://marc-medics-backend-dot-xenon-lyceum-442506-i4.as.r.appspot.com/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

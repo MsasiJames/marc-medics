@@ -11,7 +11,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import Loader from "../../loaders/loader-spinner";
 
-function ContactManage({ contactForms, loading }) {
+function ContactManage({ contactForms, loading, setFetchDataAgain }) {
   const token = localStorage.getItem("token");
   const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
   const [contactFormToDeleteId, setContactFormsToDeleteId] = useState(null);
@@ -26,9 +26,9 @@ function ContactManage({ contactForms, loading }) {
   };
 
   const deleteContactFormEntry = async (id) => {
-
+    setDeleteFormLoading(true);
     try {
-      const response = await fetch("http://127.0.0.1:8080/delete-contact-form", {
+      const response = await fetch("https://marc-medics-backend-dot-xenon-lyceum-442506-i4.as.r.appspot.com/delete-contact-form", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,6 +42,7 @@ function ContactManage({ contactForms, loading }) {
       if (response.ok) {
         const data = await response.json();
         console.log(data);
+        setFetchDataAgain(Math.random())
         setSnackbar({ open: true, message: "Entry deleted successfully!", severity: "success" });
       } else {
         console.error("Error while deleting contact form entry");
@@ -51,6 +52,7 @@ function ContactManage({ contactForms, loading }) {
       console.error("Error:", error);
       setSnackbar({ open: true, message: "An error occurred while deleting the entry.", severity: "error" });
     } finally {
+      setDeleteFormLoading(false);
       handleCloseDeleteDialog();
     }
   };

@@ -87,7 +87,7 @@ function PostManage({ posts, setFetchDataAgain, loading }) {
       setCreatePostLoading(true)
 
       try {
-        const response = await fetch('http://127.0.0.1:8080/create-new-post', {
+        const response = await fetch('https://marc-medics-backend-dot-xenon-lyceum-442506-i4.as.r.appspot.com/create-new-post', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -132,7 +132,7 @@ function PostManage({ posts, setFetchDataAgain, loading }) {
             setDeletePostLoading(true);
             console.log(postToDeleteId);
             try {
-              const response = await fetch('http://127.0.0.1:8080/delete-post', {
+              const response = await fetch('https://marc-medics-backend-dot-xenon-lyceum-442506-i4.as.r.appspot.com/delete-post', {
                 method: 'POST',
                 headers: { 
                   'Content-Type': 'application/json',

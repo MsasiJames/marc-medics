@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
+import {useNavigate} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -11,10 +12,13 @@ import ContactPageIcon from '@mui/icons-material/ContactPage';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { useDemoRouter } from '@toolpad/core/internal';
+import { Button } from '@mui/material';
 
 // components
 import ContactManage from './contact/contactManage';
 import PostManage from './post/postManage';
+
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 
 const NAVIGATION = [
   {
@@ -61,7 +65,7 @@ function DemoPageContent({ pathname }) {
     const getContactForms = async () => {
         setLoading(true);
         try {
-          const response = await fetch("http://127.0.0.1:8080/get-contact-forms", {
+          const response = await fetch("https://marc-medics-backend-dot-xenon-lyceum-442506-i4.as.r.appspot.com/get-contact-forms", {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -85,7 +89,7 @@ function DemoPageContent({ pathname }) {
     const getAllPosts = async () => {
       setAllPostsLoading(true);
         try {
-          const response = await fetch("http://127.0.0.1:8080/all-posts", {
+          const response = await fetch("https://marc-medics-backend-dot-xenon-lyceum-442506-i4.as.r.appspot.com/all-posts", {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -113,7 +117,7 @@ function DemoPageContent({ pathname }) {
 
     const renderContent = () => {
       if (pathname === '/contact') {
-          return <ContactManage contactForms={contactForms} loading={loading} />;
+          return <ContactManage contactForms={contactForms} setFetchDataAgain={setFetchDataAgain} loading={loading} />;
       }
       // Default to '/news' if pathname is anything else
       return <PostManage posts={allPosts} setFetchDataAgain={setFetchDataAgain} loading={allPostsLoading} />;
@@ -143,6 +147,8 @@ function AdminHome(props) {
     const token = localStorage.getItem('token');
     const router = useDemoRouter('/page');
 
+    const navigate = useNavigate();
+
     // App title
     function CustomTitle() {
         return (
@@ -155,6 +161,37 @@ function AdminHome(props) {
         );
     };
 
+    function Logout() {
+      return (
+          <Box sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              flexDirection: 'row'
+          }}>
+
+              <Button 
+                size='small' 
+                variant='text'
+                sx={{ 
+                  textTransform: 'none', 
+                  borderColor: 'black'
+                }}
+                onClick={() => {
+                  navigate('/')
+                  localStorage.removeItem('token')
+                }} 
+                // disabled={isExportButtonDisabled}
+                endIcon={<MeetingRoomIcon />}
+                >
+                  <Typography sx={{ color: 'black'}}>
+                      Logout
+                  </Typography>
+              </Button>
+          </Box>
+
+      );
+  };
+
 
     
 
@@ -166,6 +203,7 @@ function AdminHome(props) {
         theme={demoTheme}
         >
         <DashboardLayout slots={{
+            toolbarActions: Logout,
             appTitle: CustomTitle
         }}>
             <DemoPageContent pathname={router.pathname} />
