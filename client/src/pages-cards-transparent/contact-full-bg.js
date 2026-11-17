@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { CssVarsProvider, extendTheme } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import {  Box, Typography, Container, Card, CardContent, 
@@ -45,6 +45,9 @@ export default function Contact() {
   const [message, setMessage] = useState('');
   const [snackbar, setSnackbar] = useState({ open: false, message: '', color: 'primary' });
   const [loading, setLoading] = useState(false);
+  // Spam checks: a hidden field only bots fill in, and how long the form was open
+  const [website, setWebsite] = useState('');
+  const formOpenedAt = useRef(Date.now());
 
   const handleSubmit = (event) => {
     setLoading(true);
@@ -54,7 +57,7 @@ export default function Contact() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, email, subject, message })
+        body: JSON.stringify({ name, email, subject, message, website, elapsedMs: Date.now() - formOpenedAt.current })
       })
       .then((res) => {
         if(res.ok){
@@ -64,6 +67,7 @@ export default function Contact() {
           setEmail('');
           setSubject('');
           setMessage('');
+          formOpenedAt.current = Date.now();
         } else {
           setSnackbar({ open: true, message: 'Failed to send message. Please try again.', color: 'danger' });
         }
@@ -157,11 +161,12 @@ export default function Contact() {
                 </FormControl>
                 <FormControl sx={{ mb: 2 }}>
                   <FormLabel sx={{color: 'white'}}>Message</FormLabel>
-                  <Textarea 
-                    minRows={4} 
-                    required 
+                  <Textarea
+                    minRows={4}
+                    required
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
+                    slotProps={{ textarea: { maxLength: 5000 } }}
                     sx={{
                       color: 'white',
                       bgcolor: 'rgba(255, 255, 255, 0.1)',
@@ -170,8 +175,22 @@ export default function Contact() {
                     }}
                   />
                 </FormControl>
-                <Button 
-                  type="submit" 
+                {/* Honeypot: off-screen and skipped by keyboard, so only bots fill it in */}
+                <Box aria-hidden="true" sx={{ position: 'absolute', left: '-10000px', width: '1px', height: '1px', overflow: 'hidden' }}>
+                  <label>
+                    Website
+                    <input
+                      type="text"
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={website}
+                      onChange={(e) => setWebsite(e.target.value)}
+                    />
+                  </label>
+                </Box>
+                <Button
+                  type="submit"
                   sx={{ 
                     width: '100%',
                     bgcolor: 'primary.500',
