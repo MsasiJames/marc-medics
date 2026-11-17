@@ -11,11 +11,13 @@ const jwt = require('jsonwebtoken');
 const secretKey = process.env.JWT_SECRET_KEY;
 
 const nodemailer = require('nodemailer');
+const { spamSignals, isLikelySpam } = require('./spamFilter');
 
 const app = express();
 
 const PORT = 8080;
 
+app.set('trust proxy', true); // App Engine sits behind Google's proxy; this makes req.ip the visitor's IP
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -166,6 +168,14 @@ const submitToCF7 = async (formData) => {
     }
 };
   
+// Form values go into the email as HTML, so escape them to stop people injecting markup
+const escapeHtml = (value) => String(value)
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#39;');
+
 // Endpoint for contact form
 async function sendEmail(name, email, subject, message){
   try {
@@ -181,7 +191,7 @@ async function sendEmail(name, email, subject, message){
 
     const info = await transporter.sendMail({
       from: 'notifications.midasgroup@gmail.com',
-      to: ['info@marcmedics.com', 'jamesmsasi67@gmail.com'],
+      to: ['info@marcmedics.com'],
       subject: "Customer Inquiry",
       html: `
         <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; padding: 20px; border: 1px solid #ddd; border-radius: 5px;">
@@ -190,19 +200,19 @@ async function sendEmail(name, email, subject, message){
           <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
             <tr style="background-color: #f9f9f9;">
               <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Name</th>
-              <td style="padding: 8px; border: 1px solid #ddd;">${name}</td>
+              <td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(name)}</td>
             </tr>
             <tr>
               <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Email</th>
-              <td style="padding: 8px; border: 1px solid #ddd;">${email}</td>
+              <td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(email)}</td>
             </tr>
             <tr>
               <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Subject</th>
-              <td style="padding: 8px; border: 1px solid #ddd;">${subject}</td>
+              <td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(subject)}</td>
             </tr>
             <tr>
               <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Message</th>
-              <td style="padding: 8px; border: 1px solid #ddd;">${message}</td>
+              <td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(message)}</td>
             </tr>
           </table>
           <p style="margin-top: 20px; font-size: 14px; color: #666;">Please follow up with the customer as soon as possible.</p>
@@ -211,7 +221,7 @@ async function sendEmail(name, email, subject, message){
     });
 
     console.log('Email sent:', info.messageId);
-    console.log('Message sent to:', 'info@marcmedics.com', 'jamesmsasi67@gmail.com'); 
+    console.log('Message sent to:', 'info@marcmedics.com');
     return { success: true, messageId: info.messageId };
   } catch (error) {
     console.error('Failed to send email:', error.message);
@@ -219,10 +229,64 @@ async function sendEmail(name, email, subject, message){
   }
 }
 
+// Contact form rate limit: 5 submissions per IP per 15 minutes.
+// Kept in memory, so each App Engine instance counts separately.
+const CONTACT_WINDOW_MS = 15 * 60 * 1000;
+const CONTACT_MAX_PER_WINDOW = 5;
+const contactHits = new Map(); // ip -> timestamps of recent submissions
+
+const contactRateLimit = (req, res, next) => {
+  const now = Date.now();
+  const recent = (contactHits.get(req.ip) || []).filter(t => now - t < CONTACT_WINDOW_MS);
+  if (recent.length >= CONTACT_MAX_PER_WINDOW) {
+    contactHits.set(req.ip, recent);
+    return res.status(429).json({
+      success: false,
+      message: 'Too many messages. Please try again later.'
+    });
+  }
+  recent.push(now);
+  contactHits.set(req.ip, recent);
+  next();
+};
+
+// Forget IPs with no recent submissions so the map doesn't grow forever
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, times] of contactHits) {
+    if (times.every(t => now - t >= CONTACT_WINDOW_MS)) contactHits.delete(ip);
+  }
+}, CONTACT_WINDOW_MS).unref();
+
+const CONTACT_LIMITS = { name: 100, email: 254, subject: 200, message: 5000 };
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MIN_FILL_TIME_MS = 3000; // nobody fills in the form faster than this
+
+// Suspected bots get the normal success reply so they can't tell they were filtered
+const CONTACT_SUCCESS = {
+  success: true,
+  message: 'Submission saved and email notification sent.'
+};
+
 // contact form endpoints
-app.post('/contact', async (req, res) => {
+app.post('/contact', contactRateLimit, async (req, res) => {
   try {
-    const { name, email, subject, message } = req.body;
+    const { website, elapsedMs } = req.body;
+
+    // Only accept strings, trimmed
+    const fields = {};
+    for (const key of Object.keys(CONTACT_LIMITS)) {
+      const value = req.body[key];
+      fields[key] = typeof value === 'string' ? value.trim() : '';
+    }
+    const { name, email, subject, message } = fields;
+
+    // Honeypot: the form hides this field from people, so only bots fill it in.
+    // Logged so a wrongly dropped message can still be found in the App Engine logs.
+    if (website) {
+      console.warn('Contact form: honeypot filled, dropped', JSON.stringify({ ...fields, ip: req.ip }));
+      return res.status(200).json(CONTACT_SUCCESS);
+    }
 
     // Validate incoming request
     if (!name || !email || !message) {
@@ -230,6 +294,34 @@ app.post('/contact', async (req, res) => {
         success: false,
         message: 'Validation error: All fields (name, email, message) are required.'
       });
+    }
+
+    if (!EMAIL_PATTERN.test(email)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation error: Please enter a valid email address.'
+      });
+    }
+
+    const tooLong = Object.keys(CONTACT_LIMITS).find(key => fields[key].length > CONTACT_LIMITS[key]);
+    if (tooLong) {
+      return res.status(400).json({
+        success: false,
+        message: `Validation error: ${tooLong} must be at most ${CONTACT_LIMITS[tooLong]} characters.`
+      });
+    }
+
+    // The form reports how long it was open. If that's missing, the request didn't come from the form.
+    if (typeof elapsedMs !== 'number' || elapsedMs < MIN_FILL_TIME_MS) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please take a moment to fill in the form, then try again.'
+      });
+    }
+
+    if (isLikelySpam(fields)) {
+      console.warn('Contact form: likely spam, dropped', JSON.stringify({ ...fields, signals: spamSignals(fields), ip: req.ip }));
+      return res.status(200).json(CONTACT_SUCCESS);
     }
 
     // Reference the file in GCS
@@ -267,7 +359,7 @@ app.post('/contact', async (req, res) => {
     });
 
     // Send email notification
-    const emailResponse = await sendEmail(name, email, subject, message);
+    const emailResponse = await sendEmail(name, email, subject || 'No Subject', message);
 
     if (!emailResponse.success) {
       return res.status(502).json({
@@ -278,10 +370,7 @@ app.post('/contact', async (req, res) => {
     }
 
     // Respond with success
-    return res.status(200).json({
-      success: true,
-      message: 'Submission saved and email notification sent.'
-    });
+    return res.status(200).json(CONTACT_SUCCESS);
   } catch (error) {
     console.error('Unexpected error:', error);
     return res.status(500).json({
